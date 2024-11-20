@@ -11,7 +11,10 @@ npm-debug.log*
 dist/
 build/
 
-# IDE/Editor-specifik files
+# Node modules
+node_modules/
+
+# IDE/Editor-specific files
 .vscode/
 .idea/
 *.swp

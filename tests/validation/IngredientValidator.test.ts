@@ -66,3 +66,15 @@ describe('IngredientValidator', () => {
     )
   })
 })
+
+describe('IngredientValidator', () => {
+  it('should throw an exception if amount is not a number', () => {
+    const mockingIngredient = new Ingredient('Egg', 'six', 'pcs', 50, {
+      calories: 155,
+    }) as unknown as Ingredient
+
+    expect(() => IngredientValidator.validate(mockingIngredient)).toThrowError(
+      'amount must be a number',
+    )
+  })
+})

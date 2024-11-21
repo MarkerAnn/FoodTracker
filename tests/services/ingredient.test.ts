@@ -25,7 +25,7 @@ describe('IngredientManager', () => {
 })
 
 describe('IngredientManager', () => {
-  it('should thow exception when nutritionPer100Gram is missing', () => {
+  it('should throw an exception when nutritionPer100Gram is missing', () => {
     const manager = new IngredientManager()
     const ingredient = {
       name: 'Egg',
@@ -34,10 +34,8 @@ describe('IngredientManager', () => {
       gramPerUnit: 50,
     }
 
-    manager.addIngredient(ingredient)
-
-    expect(() => manager.getIngredients()).toThrowError(
-      'You need to add calories OR proteins, fats, carbs OR all of them',
+    expect(() => manager.addIngredient(ingredient)).toThrowError(
+      'Ingredient must have either calories or all macros (proteins, fats, carbs) defined.',
     )
   })
 })

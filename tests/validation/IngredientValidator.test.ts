@@ -43,7 +43,7 @@ describe('IngredientValidator', () => {
     const ingredient = new Ingredient('', 6, 'pcs', 50, { calories: 155 })
 
     expect(() => IngredientValidator.validate(ingredient)).toThrowError(
-      'Ingredient must have a valid name.',
+      'Ingredient must have a valid name as a non-empty string.',
     )
   })
 })
@@ -53,7 +53,7 @@ describe('IngredientValidator', () => {
     const ingredient = new Ingredient('Egg', -6, 'pcs', 50, { calories: 155 })
 
     expect(() => IngredientValidator.validate(ingredient)).toThrowError(
-      'Ingredient must have a positive amount.',
+      'Ingredient must have a positive amount greater than 0.',
     )
   })
 })
@@ -69,12 +69,44 @@ describe('IngredientValidator', () => {
 
 describe('IngredientValidator', () => {
   it('should throw an exception if amount is not a number', () => {
-    const mockingIngredient = new Ingredient('Egg', 'six', 'pcs', 50, {
-      calories: 155,
-    }) as unknown as Ingredient
+    const mockIngredient = {
+      name: 'Egg',
+      amount: 'six',
+      unit: 'pcs',
+      gramPerUnit: 50,
+      nutritionPer100Gram: { calories: 155 },
+    } as unknown as Ingredient // Make it an Ingredient
 
-    expect(() => IngredientValidator.validate(mockingIngredient)).toThrowError(
-      'Ingredient must have a positive amount.',
+    expect(() => IngredientValidator.validate(mockIngredient)).toThrowError(
+      'Ingredient must have a positive amount greater than 0.',
+    )
+  })
+})
+
+describe('IngredientValidator', () => {
+  it('should throw an exception when amount is zero', () => {
+    // Create an ingredient object with amount set to 0
+    const ingredient = new Ingredient('Egg', 0, 'pcs', 50, { calories: 155 })
+
+    // Expect an error to be thrown with the correct message
+    expect(() => IngredientValidator.validate(ingredient)).toThrowError(
+      'Ingredient must have a positive amount greater than 0.',
+    )
+  })
+})
+
+describe('IngredientValidator', () => {
+  it('should throw an exception when unit is missing', () => {
+    const mockIngredient = {
+      name: 'Egg',
+      amount: 6,
+      unit: '',
+      gramPerUnit: 50,
+      nutritionPer100Gram: { calories: 155 },
+    } as unknown as Ingredient
+
+    expect(() => IngredientValidator.validate(mockIngredient)).toThrowError(
+      'Ingredient must have a valid unit as a string.',
     )
   })
 })

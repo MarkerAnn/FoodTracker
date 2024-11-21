@@ -20,6 +20,15 @@ export class IngredientValidator {
       throw new Error('Ingredient must have a valid unit as a string.')
     }
 
+    if (
+      typeof ingredient.gramPerUnit !== 'number' ||
+      ingredient.gramPerUnit <= 0
+    ) {
+      throw new Error(
+        'Ingredient must have gramPerUnit as a positive number greater than 0.',
+      )
+    }
+
     const nutrition = ingredient.nutritionPer100Gram
 
     const hasCalories =
@@ -39,15 +48,6 @@ export class IngredientValidator {
       )
     }
 
-    // Then validate the nutrition object itself
-    if (!nutrition || typeof nutrition !== 'object') {
-      throw new Error(
-        'Ingredient must have a valid nutritionPer100Gram object.',
-      )
-    }
-
     return true
   }
 }
-
-// TODO: Fix this later

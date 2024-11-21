@@ -110,3 +110,19 @@ describe('IngredientValidator', () => {
     )
   })
 })
+
+describe('IngredientValidator', () => {
+  it('should throw an exception when gramPerUnit is not a number', () => {
+    const mockIngredient = {
+      name: 'Egg',
+      amount: 6,
+      unit: 'pcs',
+      gramPerUnit: 'fifty',
+      nutritionPer100Gram: { calories: 155 },
+    } as unknown as Ingredient
+
+    expect(() => IngredientValidator.validate(mockIngredient)).toThrowError(
+      'Ingredient must have gramPerUnit as a positive number greater than 0.',
+    )
+  })
+})

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-import { IngredientManager } from '../../src/models/ingredientManager'
+import { IngredientManager } from '../../src/services/IngredientManager'
 
 describe('IngredientManager', () => {
   it('should add an ingredient', () => {

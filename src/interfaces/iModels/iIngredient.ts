@@ -1,17 +1,4 @@
-export type Unit =
-  | 'pcs'
-  | 'g'
-  | 'ml'
-  | 'tbsp'
-  | 'tsp'
-  | 'cup'
-  | 'oz'
-  | 'lb'
-  | 'kg'
-  | 'l'
-  | 'dl'
-  | 'cl'
-  | 'ml'
+import { Unit } from '../../enums/Unit.js'
 
 export interface iIngredient {
   id?: string

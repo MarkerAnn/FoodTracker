@@ -1,5 +1,5 @@
-import { Ingredient } from '../models/Ingredient'
-import { IngredientValidator } from '../validation/IngredientValidator'
+import { Ingredient } from '../models/Ingredient.js'
+import { IngredientValidator } from '../validation/IngredientValidator.js'
 
 export class IngredientManager {
   private ingredients: Ingredient[] = []

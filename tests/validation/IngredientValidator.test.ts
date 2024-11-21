@@ -60,9 +60,9 @@ describe('IngredientValidator', () => {
 
 describe('IngredientValidator', () => {
   it('should throw an exception if ingredint is undefined', () => {
-    const ingredient = undefined
-    expect(() => IngredientValidator.validate(undefined)).toThrowError(
-      'Ingredient must be a valid  object.',
+    const ingredient = undefined as unknown as Ingredient
+    expect(() => IngredientValidator.validate(ingredient)).toThrowError(
+      'Ingredient must be a valid object.',
     )
   })
 })

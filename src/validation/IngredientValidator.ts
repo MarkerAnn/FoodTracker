@@ -2,8 +2,11 @@ import { Ingredient } from '../models/Ingredient'
 
 export class IngredientValidator {
   static validate(ingredient: Ingredient) {
-    const nutrition = ingredient.nutritionPer100Gram
+    if (!ingredient || typeof ingredient !== 'object') {
+      throw new Error('Ingredient must be a valid object.')
+    }
 
+    const nutrition = ingredient.nutritionPer100Gram
     if (
       !nutrition ||
       (!nutrition.calories &&

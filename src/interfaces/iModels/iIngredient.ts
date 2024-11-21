@@ -14,7 +14,7 @@ export type Unit =
   | 'ml'
 
 export interface iIngredient {
-  id: string
+  id?: string
   name: string
   amount: number
   unit: Unit // pcs, g, ml, etc.

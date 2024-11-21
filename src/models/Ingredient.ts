@@ -7,10 +7,10 @@ export class Ingredient implements iIngredient {
   unit: Unit
   gramPerUnit: number
   nutritionPer100Gram: {
-    calories: number
-    proteins: number
-    fats: number
-    carbs: number
+    calories?: number
+    proteins?: number
+    fats?: number
+    carbs?: number
   }
 
   constructor(
@@ -19,10 +19,10 @@ export class Ingredient implements iIngredient {
     unit: Unit,
     gramPerUnit: number,
     nutritionPer100gram: {
-      calories: number
-      proteins: number
-      fats: number
-      carbs: number
+      calories?: number
+      proteins?: number
+      fats?: number
+      carbs?: number
     },
   ) {
     this.id = this.generateId()
@@ -41,5 +41,3 @@ export class Ingredient implements iIngredient {
     )
   }
 }
-
-// TODO: Implement error handeling, when you add ingredient you must add calories || prot, fats, carbs || everything

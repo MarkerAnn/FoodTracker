@@ -1,23 +1,11 @@
-import { iIngredient } from '../interfaces/iModels/iIngredient'
 import { Ingredient } from '../models/Ingredient'
+import { IngredientValidator } from '../validation/IngredientValidator'
 
 export class IngredientManager {
-  private ingredients: iIngredient[] = []
+  private ingredients: Ingredient[] = []
 
-  addIngredient(ingredient: iIngredient) {
-    if (
-      !ingredient.nutritionPer100Gram ||
-      (!ingredient.nutritionPer100Gram.calories &&
-        !(
-          ingredient.nutritionPer100Gram.proteins &&
-          ingredient.nutritionPer100Gram.fats &&
-          ingredient.nutritionPer100Gram.carbs
-        ))
-    ) {
-      throw new Error(
-        'Ingredient must have either calories or all macros (proteins, fats, carbs) defined.',
-      )
-    }
+  addIngredient(ingredient: Ingredient) {
+    IngredientValidator.validate(ingredient)
     this.ingredients.push(ingredient)
   }
   getIngredients() {

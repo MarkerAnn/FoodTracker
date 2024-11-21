@@ -23,3 +23,21 @@ describe('IngredientManager', () => {
     expect(manager.getIngredients()).toContainEqual(ingredient)
   })
 })
+
+describe('IngredientManager', () => {
+  it('should thow exception when nutritionPer100Gram is missing', () => {
+    const manager = new IngredientManager()
+    const ingredient = {
+      name: 'Egg',
+      amount: 6,
+      unit: 'pcs',
+      gramPerUnit: 50,
+    }
+
+    manager.addIngredient(ingredient)
+
+    expect(() => manager.getIngredients()).toThrowError(
+      'You need to add calories OR proteins, fats, carbs OR all of them',
+    )
+  })
+})

@@ -16,6 +16,10 @@ export class IngredientValidator {
       throw new Error('Ingredient must have a positive amount greater than 0.')
     }
 
+    if (!ingredient.unit || typeof ingredient.unit !== 'string') {
+      throw new Error('Ingredient must have a valid unit as a string.')
+    }
+
     const nutrition = ingredient.nutritionPer100Gram
 
     const hasCalories =

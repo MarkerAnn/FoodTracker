@@ -74,7 +74,7 @@ describe('IngredientValidator', () => {
     }) as unknown as Ingredient
 
     expect(() => IngredientValidator.validate(mockingIngredient)).toThrowError(
-      'amount must be a number',
+      'Ingredient must have a positive amount.',
     )
   })
 })

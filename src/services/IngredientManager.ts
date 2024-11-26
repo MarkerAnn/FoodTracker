@@ -11,4 +11,6 @@ export class IngredientManager {
   getIngredients() {
     return this.ingredients
   }
+
+  deleteIngredient(id: string) {}
 }

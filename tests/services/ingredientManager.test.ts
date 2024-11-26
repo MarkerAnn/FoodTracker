@@ -16,4 +16,19 @@ describe('IngredientManager', () => {
 
     expect(manager.getIngredients()).toContainEqual(ingredient)
   })
+
+  it('should delete an ingredient', () => {
+    const manager = new IngredientManager()
+    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
+      calories: 155,
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
+
+    manager.addIngredient(ingredient)
+    manager.deleteIngredient(ingredient.id)
+
+    expect(manager.getIngredients()).not.toContainEqual(ingredient)
+  })
 })

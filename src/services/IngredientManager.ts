@@ -13,6 +13,9 @@ export class IngredientManager {
   }
 
   deleteIngredient(id: string) {
+    if (!this.ingredients.some((ingredient) => ingredient.id === id)) {
+      throw new Error('Ingredient does not exist.')
+    }
     this.ingredients = this.ingredients.filter(
       (ingredient) => ingredient.id !== id,
     )

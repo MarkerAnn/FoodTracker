@@ -31,4 +31,18 @@ describe('IngredientManager', () => {
 
     expect(manager.getIngredients()).not.toContainEqual(ingredient)
   })
+
+  it('should throw error if ingredient does not exist', () => {
+    const manager = new IngredientManager()
+    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
+      calories: 155,
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
+
+    expect(() => manager.deleteIngredient(ingredient.id)).toThrowError(
+      'Ingredient does not exist.',
+    )
+  })
 })

@@ -45,4 +45,23 @@ describe('IngredientManager', () => {
       'Ingredient does not exist.',
     )
   })
+
+  it('should update an ingredient', () => {
+    const manager = new IngredientManager()
+    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
+      calories: 155,
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
+
+    manager.addIngredient(ingredient)
+    manager.updateIngredient(ingredient.id, { name: 'Egg White' })
+
+    const updatedIngredient = manager
+      .getIngredients()
+      .find((ing) => ing.id === ingredient.id)
+
+    expect(updatedIngredient?.name).toBe('Egg White')
+  })
 })

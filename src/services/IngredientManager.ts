@@ -25,4 +25,6 @@ export class IngredientManager {
   private findIngredient(id: string) {
     return this.ingredients.find((ingredient) => ingredient.id === id)
   }
+
+  updateIngredient(id: string, updateFields: Partial<Ingredient>) {}
 }

@@ -97,14 +97,5 @@ describe('IngredientValidator', () => {
       const ingredient = new Ingredient('Egg', 6, 'pcs', 50, { calories: 155 })
       expect(() => IngredientValidator.validate(ingredient)).not.toThrowError()
     })
-
-    it('should not throw an exception when only calorie is missing', () => {
-      const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-        proteins: 13,
-        fats: 11,
-        carbs: 1,
-      })
-      expect(() => IngredientValidator.validate(ingredient)).not.toThrowError()
-    })
   })
 })

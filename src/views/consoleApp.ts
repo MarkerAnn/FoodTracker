@@ -3,8 +3,6 @@ import { Unit } from '../enums/Unit.js'
 import { Ingredient } from '../models/Ingredient.js'
 import { IngredientManager } from '../services/IngredientManager.js'
 
-const ingredientManager = new IngredientManager()
-
 function promptForIngredient(): Ingredient {
   const name = readlineSync.question('Enter ingredient name: ')
   const amount = parseFloat(readlineSync.question('Enter amount: '))
@@ -19,7 +17,7 @@ function promptForIngredient(): Ingredient {
   return new Ingredient(name, amount, unit, gramPerUnit, { calories })
 }
 
-function main() {
+export function main(ingredientManager: IngredientManager): void {
   console.log('Welcome to the Food Tracker Console App')
   while (true) {
     console.log('\nMenu:')
@@ -47,8 +45,6 @@ function main() {
     }
   }
 }
-
-main()
 
 // TODO: Save ingredient to json file
 // TODO: Recipe Classes

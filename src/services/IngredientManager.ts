@@ -12,5 +12,9 @@ export class IngredientManager {
     return this.ingredients
   }
 
-  deleteIngredient(id: string) {}
+  deleteIngredient(id: string) {
+    this.ingredients = this.ingredients.filter(
+      (ingredient) => ingredient.id !== id,
+    )
+  }
 }

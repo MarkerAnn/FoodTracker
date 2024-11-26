@@ -13,11 +13,16 @@ export class IngredientManager {
   }
 
   deleteIngredient(id: string) {
-    if (!this.ingredients.some((ingredient) => ingredient.id === id)) {
+    if (this.findIngredient(id)) {
+      this.ingredients = this.ingredients.filter(
+        (ingredient) => ingredient.id !== id,
+      )
+    } else {
       throw new Error('Ingredient does not exist.')
     }
-    this.ingredients = this.ingredients.filter(
-      (ingredient) => ingredient.id !== id,
-    )
+  }
+
+  private findIngredient(id: string) {
+    return this.ingredients.find((ingredient) => ingredient.id === id)
   }
 }

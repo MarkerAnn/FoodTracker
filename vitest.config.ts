@@ -5,7 +5,7 @@ export default defineConfig({
     globals: true, // Activate global variables like 'describe', 'test', 'it', 'expect'.
     //watch: true, // Watch for file changes.
     environment: 'node', // Choose 'node' or 'browser'.
-    reporters: ['basic'], // Choose 'basic' or 'detailed'.
+    reporters: ['verbose'], // Choose 'basic' or 'detailed'.
     coverage: {
       provider: 'istanbul', // Choose 'v8' or 'istanbul'.
       reporter: ['text', 'html'], // Generate reports in text and html format.

@@ -64,4 +64,18 @@ describe('IngredientManager', () => {
 
     expect(updatedIngredient?.name).toBe('Egg White')
   })
+
+  it('should throw error if ingredient you want to update does not exist', () => {
+    const manager = new IngredientManager()
+    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
+      calories: 155,
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
+
+    expect(() =>
+      manager.updateIngredient(ingredient.id, { name: 'Egg White' }),
+    ).toThrowError('Ingredient does not exist.')
+  })
 })

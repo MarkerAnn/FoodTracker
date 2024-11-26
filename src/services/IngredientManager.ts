@@ -26,5 +26,16 @@ export class IngredientManager {
     return this.ingredients.find((ingredient) => ingredient.id === id)
   }
 
-  updateIngredient(id: string, updateFields: Partial<Ingredient>) {}
+  updateIngredient(id: string, updateFields: Partial<Ingredient>) {
+    const ingredient = this.findIngredient(id)
+    const updateIngredient = {
+      ...ingredient,
+      ...updateFields,
+      id: ingredient.id,
+    }
+
+    const index = this.ingredients.findIndex((ing) => ing.id === id)
+    this.ingredients[index] = updateIngredient as Ingredient
+    return updateIngredient
+  }
 }

@@ -28,6 +28,11 @@ export class IngredientManager {
 
   updateIngredient(id: string, updateFields: Partial<Ingredient>) {
     const ingredient = this.findIngredient(id)
+
+    if (!ingredient) {
+      throw new Error('Ingredient does not exist.')
+    }
+
     const updateIngredient = {
       ...ingredient,
       ...updateFields,

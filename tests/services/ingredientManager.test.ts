@@ -9,8 +9,6 @@ describe('IngredientManager', () => {
   })
 
   it('should add an ingredient', () => {
-    const manager = new IngredientManager()
-
     manager.createIngredient(
       ingredientEgg.name,
       ingredientEgg.caloriePerHundredGram,
@@ -22,6 +20,17 @@ describe('IngredientManager', () => {
         caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
       }),
     )
+  })
+
+  it('should delete an ingredient', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.deleteIngredient(ingredient.id)
+
+    expect(manager.getIngredients()).not.toContainEqual(ingredient)
   })
 
   //   it('should delete an ingredient', () => {

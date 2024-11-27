@@ -52,6 +52,22 @@ describe('RecipeValidator', () => {
     })
   })
 
+  describe('ingredients validation', () => {
+    it('should throw an exception when ingredients are missing', () => {
+      const recipe = new Recipe('Omelette', [], 'Cook it', 1)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have at least one ingredient.',
+      )
+    })
+
+    it('should throw an exception when ingredients are not an array', () => {
+      const recipe = new Recipe('Omelette', 6 as unknown as [], 'Cook it', 1)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have at least one ingredient.',
+      )
+    })
+  })
+
 
 
 })

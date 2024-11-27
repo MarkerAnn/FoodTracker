@@ -10,4 +10,13 @@ describe('RecipeValidator', () => {
       )
     })
   })
+
+  describe('name validation', () => {
+    it('should throw an exception when name is empty', () => {
+      const recipe = new Recipe('', [], 'Cook it', 1)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have a valid name as a non-empty string.',
+      )
+    })
+  })
 })

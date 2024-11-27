@@ -15,6 +15,14 @@ export class IngredientValidator {
     }
   }
 
+  validateCalories(calories: number): void {
+    if (typeof calories !== 'number' || calories <= 0) {
+      throw new Error(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
+      )
+    }
+  }
+
   //     if (typeof ingredient.amount !== 'number' || ingredient.amount <= 0) {
   //       throw new Error('Ingredient must have a positive amount greater than 0.')
   //     }

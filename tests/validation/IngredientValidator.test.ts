@@ -28,16 +28,16 @@ describe('IngredientValidator', () => {
 
   describe('CaloriePerHundredGram validation', () => {
     it('should throw an exception when caloriePerHundredGram is negative', () => {
-      const ingredient = new Ingredient('Egg', -6)
-      expect(() => validator.validateCalories(ingredient)).toThrow(
-        'Ingredient must have a positive amount greater than 0.',
+      const caloriePerHundreGrame = -6
+      expect(() => validator.validateCalories(caloriePerHundreGrame)).toThrow(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
       )
     })
 
     it('should throw an exception when caloriePerHundredGram is zero', () => {
-      const ingredient = new Ingredient('Egg', 0)
-      expect(() => validator.validateCalories(ingredient)).toThrow(
-        'Ingredient must have a positive amount greater than 0.',
+      const caloriePerHundreGrame = 0
+      expect(() => validator.validateCalories(caloriePerHundreGrame)).toThrow(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
       )
     })
 
@@ -46,11 +46,13 @@ describe('IngredientValidator', () => {
         name: 'Egg',
         caloriePerHundredGram: 'six',
       } as unknown as Ingredient
-      expect(() => validator.validateCalories(mockIngredient)).toThrow(
-        'Ingredient must have a positive amount greater than 0.',
+      expect(() =>
+        validator.validateCalories(mockIngredient.caloriePerHundredGram),
+      ).toThrow(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
       )
     })
-  }
+  })
 
   //   describe('amount validation', () => {
   //     it('should throw an exception when amount is negative', () => {

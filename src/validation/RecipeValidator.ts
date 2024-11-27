@@ -7,8 +7,12 @@ export class RecipeValidator {
     }
 
     if (!recipe.name || typeof recipe.name !== 'string') {
+      throw new Error('Recipe must have a valid name as a non-empty string.')
+    }
+
+    if (typeof recipe.servings !== 'number' || recipe.servings <= 0) {
       throw new Error(
-        'Recipe must have a valid name as a non-empty string.',
+        'Recipe must have a positive amount of servings greater than 0.',
       )
     }
   }

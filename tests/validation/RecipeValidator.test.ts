@@ -27,7 +27,15 @@ describe('RecipeValidator', () => {
         'Recipe must have a positive amount of servings greater than 0.',
       )
     })
+
+    it('should throw an exception when servings is zero', () => {
+      const recipe = new Recipe('Omelette', [], 'Cook it', 0)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    })
   })
 
-  
+
+
 })

@@ -75,6 +75,6 @@ describe('IngredientManager', () => {
 
     expect(() =>
       manager.updateIngredient(ingredient.id, { name: 'Egg White' }),
-    ).toThrowError('Ingredient does not exist.')
+    ).toThrow('Ingredient does not exist.')
   })
 })

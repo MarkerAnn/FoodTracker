@@ -15,5 +15,11 @@ export class RecipeValidator {
         'Recipe must have a positive amount of servings greater than 0.',
       )
     }
+
+    if (!recipe.instructions) {
+      throw new Error(
+        'Recipe must have a valid instructions as a non-empty string.',
+      )
+    }
   }
 }

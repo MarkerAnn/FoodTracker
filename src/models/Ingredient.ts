@@ -19,7 +19,7 @@ export class Ingredient implements iIngredient {
     this.caloriePerHundredGram = caloriePerHundredGram
   }
 
-  private generateId() {
+  private generateId(): string {
     return (
       'ing_' +
       Date.now().toString(36) +

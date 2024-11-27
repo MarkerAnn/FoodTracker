@@ -3,10 +3,16 @@ import { Ingredient } from '../../src/models/Ingredient'
 // import { Unit } from '../../src/enums/Unit'
 
 describe('IngredientValidator', () => {
+  let validator: IngredientValidator
+
+  beforeEach(() => {
+    validator = new IngredientValidator()
+  })
+
   describe('basic validation', () => {
     it('should throw an exception if ingredient is undefined', () => {
       const ingredient = undefined as unknown as Ingredient
-      expect(() => IngredientValidator.validate(ingredient)).toThrow(
+      expect(() => validator.validateIngredient(ingredient)).toThrow(
         'Ingredient must be a valid object.',
       )
     })
@@ -14,8 +20,7 @@ describe('IngredientValidator', () => {
 
   describe('name validation', () => {
     it('should throw an exception when name is empty', () => {
-      const ingredient = new Ingredient('', 100)
-      expect(() => IngredientValidator.validate(ingredient)).toThrow(
+      expect(() => validator.validateIngredientName('')).toThrow(
         'Ingredient must have a valid name as a non-empty string.',
       )
     })

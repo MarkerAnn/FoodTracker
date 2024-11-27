@@ -1,13 +1,22 @@
 import { Ingredient } from '../models/Ingredient'
-// import { IngredientValidator } from '../validation/IngredientValidator'
-
+import { IngredientValidator } from '../validation/IngredientValidator'
 export class IngredientManager {
   private ingredients: Ingredient[] = []
+  private validator = new IngredientValidator()
 
-  addIngredient(ingredient: Ingredient) {
-    //IngredientValidator.validate(ingredient)
+  createIngredient(name: string, caloriePerHundredGram: number): Ingredient {
+    // Validera input
+    this.validator.validateIngredientName(name)
+    // this.validator.validateCalories(caloriePerHundredGram)
+
+    const ingredient = new Ingredient(name, caloriePerHundredGram)
+
+    this.validator.validateIngredient(ingredient)
     this.ingredients.push(ingredient)
+
+    return ingredient
   }
+
   getIngredients() {
     return this.ingredients
   }

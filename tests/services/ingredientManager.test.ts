@@ -2,13 +2,26 @@ import { IngredientManager } from '../../src/services/IngredientManager'
 import { ingredientEgg } from '../mockData/ingredients.mockData'
 
 describe('IngredientManager', () => {
+  let manager: IngredientManager
+
+  beforeEach(() => {
+    manager = new IngredientManager()
+  })
+
   it('should add an ingredient', () => {
     const manager = new IngredientManager()
-    const ingredient = ingredientEgg
 
-    manager.addIngredient(ingredient)
+    manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
 
-    expect(manager.getIngredients()).toContainEqual(ingredient)
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+      }),
+    )
   })
 
   //   it('should delete an ingredient', () => {

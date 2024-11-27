@@ -1,5 +1,4 @@
 import { Ingredient } from '../../src/models/Ingredient'
-import { Unit } from '../../src/enums/Unit'
 
 // Mocked ingredients
 // export const ingredientEgg = new Ingredient('Egg', 6, Unit.PCS, 50, {
@@ -9,13 +8,9 @@ import { Unit } from '../../src/enums/Unit'
 //   carbs: 1,
 // })
 
-export const ingredientEgg = new Ingredient('Egg', 155)
+export const ingredientEgg = { name: 'Egg', caloriePerHundredGram: 155 }
 
-export const ingredientMilk = new Ingredient('Skim milk', 35)
-
-// export const ingredientMilk = new Ingredient('Milk', 200, Unit.ML, 1, {
-//   calories: 42,
-//   proteins: 3.4,
-//   fats: 1.5,
-//   carbs: 4.8,
-// })
+export const ingredientSkimMilk = {
+  name: 'Skim Milk',
+  caloriePerHundredGram: 42,
+}

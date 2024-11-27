@@ -6,11 +6,11 @@ export class IngredientValidator {
       throw new Error('Ingredient must be a valid object.')
     }
 
-    // if (!ingredient.name || typeof ingredient.name !== 'string') {
-    //   throw new Error(
-    //     'Ingredient must have a valid name as a non-empty string.',
-    //   )
-    // }
+    if (!ingredient.name || typeof ingredient.name !== 'string') {
+      throw new Error(
+        'Ingredient must have a valid name as a non-empty string.',
+      )
+    }
 
     //     if (typeof ingredient.amount !== 'number' || ingredient.amount <= 0) {
     //       throw new Error('Ingredient must have a positive amount greater than 0.')

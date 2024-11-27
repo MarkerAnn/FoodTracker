@@ -1,4 +1,5 @@
 import { iRecipe } from '../interfaces/iModels/iRecipe'
+import { Ingredient } from './Ingredient'
 
 export class Recipe implements iRecipe {
   id: string
@@ -15,13 +16,16 @@ export class Recipe implements iRecipe {
 
   constructor(
     name: string,
-    ingredients: { ingredientId: string; amount: number }[],
+    ingredients: { ingredient: Ingredient; amount: number }[],
     instructions: string,
     servings: number,
   ) {
     this.id = this.generateId()
     this.name = name
-    this.ingredients = ingredients
+    this.ingredients = ingredients.map((ing) => ({
+      ingredientId: ing.ingredient.id,
+      amount: ing.amount,
+    }))
     this.instructions = instructions
     this.servings = servings
     this.nutritionPerPortion = {}

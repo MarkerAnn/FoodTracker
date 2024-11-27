@@ -1,15 +1,11 @@
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Ingredient } from '../../src/models/Ingredient'
+import { ingredientEgg } from '../mockData/ingredients.mockData'
 
 describe('IngredientManager', () => {
   it('should add an ingredient', () => {
     const manager = new IngredientManager()
-    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-      calories: 155,
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
+    const ingredient = ingredientEgg
 
     manager.addIngredient(ingredient)
 
@@ -18,12 +14,7 @@ describe('IngredientManager', () => {
 
   it('should delete an ingredient', () => {
     const manager = new IngredientManager()
-    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-      calories: 155,
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
+    const ingredient = ingredientEgg
 
     manager.addIngredient(ingredient)
     manager.deleteIngredient(ingredient.id)
@@ -33,12 +24,7 @@ describe('IngredientManager', () => {
 
   it('should throw error if ingredient does not exist', () => {
     const manager = new IngredientManager()
-    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-      calories: 155,
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
+    const ingredient = ingredientEgg
 
     expect(() => manager.deleteIngredient(ingredient.id)).toThrowError(
       'Ingredient does not exist.',
@@ -47,12 +33,7 @@ describe('IngredientManager', () => {
 
   it('should update an ingredient', () => {
     const manager = new IngredientManager()
-    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-      calories: 155,
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
+    const ingredient = ingredientEgg
 
     manager.addIngredient(ingredient)
     manager.updateIngredient(ingredient.id, { name: 'Egg White' })
@@ -66,12 +47,7 @@ describe('IngredientManager', () => {
 
   it('should throw error if ingredient you want to update does not exist', () => {
     const manager = new IngredientManager()
-    const ingredient = new Ingredient('Egg', 6, 'pcs', 50, {
-      calories: 155,
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
+    const ingredient = ingredientEgg
 
     expect(() =>
       manager.updateIngredient(ingredient.id, { name: 'Egg White' }),

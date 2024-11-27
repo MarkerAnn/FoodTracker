@@ -46,5 +46,6 @@ export class IngredientManager {
     return updateIngredient
   }
 }
-
+// TODO: getNutritionPer100Gram
+// TODO: getNutritionPerUnit
 // TODO: implement recipemanager

@@ -12,14 +12,14 @@ describe('IngredientValidator', () => {
     })
   })
 
-  //   describe('name validation', () => {
-  //     it('should throw an exception when name is empty', () => {
-  //       const ingredient = new Ingredient('', 6, Unit.PCS, 50, { calories: 155 })
-  //       expect(() => IngredientValidator.validate(ingredient)).toThrow(
-  //         'Ingredient must have a valid name as a non-empty string.',
-  //       )
-  //     })
-  //   })
+  describe('name validation', () => {
+    it('should throw an exception when name is empty', () => {
+      const ingredient = new Ingredient('', 100)
+      expect(() => IngredientValidator.validate(ingredient)).toThrow(
+        'Ingredient must have a valid name as a non-empty string.',
+      )
+    })
+  })
 
   //   describe('amount validation', () => {
   //     it('should throw an exception when amount is negative', () => {

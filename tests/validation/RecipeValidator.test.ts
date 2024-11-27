@@ -43,6 +43,13 @@ describe('RecipeValidator', () => {
         'Recipe must have a valid instructions as a non-empty string.',
       )
     })
+
+    it('should throw an exception when instructions are not a string', () => {
+      const recipe = new Recipe('Omelette', [], 6 as unknown as string, 1)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have a valid instructions as a non-empty string.',
+      )
+    })
   })
 
 

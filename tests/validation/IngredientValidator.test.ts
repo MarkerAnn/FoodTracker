@@ -26,6 +26,32 @@ describe('IngredientValidator', () => {
     })
   })
 
+  describe('CaloriePerHundredGram validation', () => {
+    it('should throw an exception when caloriePerHundredGram is negative', () => {
+      const ingredient = new Ingredient('Egg', -6)
+      expect(() => validator.validateCalories(ingredient)).toThrow(
+        'Ingredient must have a positive amount greater than 0.',
+      )
+    })
+
+    it('should throw an exception when caloriePerHundredGram is zero', () => {
+      const ingredient = new Ingredient('Egg', 0)
+      expect(() => validator.validateCalories(ingredient)).toThrow(
+        'Ingredient must have a positive amount greater than 0.',
+      )
+    })
+
+    it('should throw an exception if caloriePerHundredGram is not a number', () => {
+      const mockIngredient = {
+        name: 'Egg',
+        caloriePerHundredGram: 'six',
+      } as unknown as Ingredient
+      expect(() => validator.validateCalories(mockIngredient)).toThrow(
+        'Ingredient must have a positive amount greater than 0.',
+      )
+    })
+  }
+
   //   describe('amount validation', () => {
   //     it('should throw an exception when amount is negative', () => {
   //       const ingredient = new Ingredient('Egg', -6, Unit.PCS, 50, {

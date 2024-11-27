@@ -1,7 +1,7 @@
 import readlineSync from 'readline-sync'
-import { Unit } from '../enums/Unit.js'
-import { Ingredient } from '../models/Ingredient.js'
-import { IngredientManager } from '../services/IngredientManager.js'
+import { Unit } from '../enums/Unit'
+import { Ingredient } from '../models/Ingredient'
+import { IngredientManager } from '../services/IngredientManager'
 
 function promptForIngredient(): Ingredient {
   const name = readlineSync.question('Enter ingredient name: ')

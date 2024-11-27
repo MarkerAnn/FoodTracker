@@ -1,5 +1,5 @@
-import { iIngredient } from '../interfaces/iModels/iIngredient.js'
-import { Unit } from '../enums/Unit.js'
+import { iIngredient } from '../interfaces/iModels/iIngredient'
+import { Unit } from '../enums/Unit'
 
 export class Ingredient implements iIngredient {
   id: string

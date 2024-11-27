@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Ingredient } from '../../src/models/Ingredient'
 

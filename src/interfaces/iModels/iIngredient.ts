@@ -1,4 +1,4 @@
-import { Unit } from '../../enums/Unit.js'
+import { Unit } from '../../enums/Unit'
 
 export interface iIngredient {
   id?: string

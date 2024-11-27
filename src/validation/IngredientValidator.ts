@@ -1,4 +1,4 @@
-import { Ingredient } from '../models/Ingredient.js'
+import { Ingredient } from '../models/Ingredient'
 
 export class IngredientValidator {
   static validate(ingredient: Ingredient) {

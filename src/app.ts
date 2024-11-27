@@ -1,5 +1,5 @@
-import { main } from './views/consoleApp.js'
-import { IngredientManager } from './services/IngredientManager.js'
+import { main } from './views/consoleApp'
+import { IngredientManager } from './services/IngredientManager'
 
 const ingredientManager = new IngredientManager()
 main(ingredientManager)

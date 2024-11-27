@@ -1,5 +1,5 @@
-import { Ingredient } from '../models/Ingredient.js'
-import { IngredientValidator } from '../validation/IngredientValidator.js'
+import { Ingredient } from '../models/Ingredient'
+import { IngredientValidator } from '../validation/IngredientValidator'
 
 export class IngredientManager {
   private ingredients: Ingredient[] = []
@@ -39,8 +39,12 @@ export class IngredientManager {
       id: ingredient.id,
     }
 
+    IngredientValidator.validate(updateIngredient as Ingredient)
+
     const index = this.ingredients.findIndex((ing) => ing.id === id)
     this.ingredients[index] = updateIngredient as Ingredient
     return updateIngredient
   }
 }
+
+// TODO: implement recipemanager

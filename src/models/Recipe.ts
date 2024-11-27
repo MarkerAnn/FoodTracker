@@ -20,6 +20,9 @@ export class Recipe implements iRecipe {
     instructions: string,
     servings: number,
   ) {
+    if (!Array.isArray(ingredients)) {
+      throw new Error('Ingredients must be an array.')
+    }
     this.id = this.generateId()
     this.name = name
     this.ingredients = ingredients.map((ing) => ({

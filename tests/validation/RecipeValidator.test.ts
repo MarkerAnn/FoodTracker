@@ -1,5 +1,6 @@
 import { RecipeValidator } from '../../src/validation/RecipeValidator'
 import { Recipe } from '../../src/models/Recipe'
+import { ingredientEgg } from '../mockData/ingredients.mockData'
 
 describe('RecipeValidator', () => {
   describe('basic validation', () => {
@@ -53,21 +54,21 @@ describe('RecipeValidator', () => {
   })
 
   describe('ingredients validation', () => {
-    it('should throw an exception when ingredients are missing', () => {
+    it('should throw an exception when ingredients array is empty', () => {
       const recipe = new Recipe('Omelette', [], 'Cook it', 1)
       expect(() => RecipeValidator.validate(recipe)).toThrow(
         'Recipe must have at least one ingredient.',
       )
     })
 
-    it('should throw an exception when ingredients are not an array', () => {
-      const recipe = new Recipe('Omelette', 6 as unknown as [], 'Cook it', 1)
-      expect(() => RecipeValidator.validate(recipe)).toThrow(
-        'Recipe must have at least one ingredient.',
-      )
+    it('should throw an exception when ingredients is not an array', () => {
+      const invalidIngredients = 6 as unknown as {
+        ingredient: typeof ingredientEgg
+        amount: number
+      }[]
+      expect(
+        () => new Recipe('Omelette', invalidIngredients, 'Cook it', 1),
+      ).toThrow('Ingredients must be an array.')
     })
   })
-
-
-
 })

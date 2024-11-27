@@ -21,5 +21,9 @@ export class RecipeValidator {
         'Recipe must have a valid instructions as a non-empty string.',
       )
     }
+
+    if (!recipe.ingredients || !recipe.ingredients.length) {
+      throw new Error('Recipe must have at least one ingredient.')
+    }
   }
 }

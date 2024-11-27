@@ -16,7 +16,7 @@ export class RecipeValidator {
       )
     }
 
-    if (!recipe.instructions) {
+    if (!recipe.instructions || typeof recipe.instructions !== 'string') {
       throw new Error(
         'Recipe must have a valid instructions as a non-empty string.',
       )

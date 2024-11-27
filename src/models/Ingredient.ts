@@ -4,34 +4,19 @@ import { Unit } from '../enums/Unit'
 export class Ingredient implements iIngredient {
   id: string
   name: string
-  amount: number
-  unit: Unit
-  gramPerUnit: number
-  nutritionPer100Gram: {
-    calories?: number
+  caloriePerHundredGram: number
+  unit?: Unit
+  gramPerUnit?: number
+  nutritionPer100Gram?: {
     proteins?: number
     fats?: number
     carbs?: number
   }
 
-  constructor(
-    name: string,
-    amount: number,
-    unit: Unit,
-    gramPerUnit: number,
-    nutritionPer100gram: {
-      calories?: number
-      proteins?: number
-      fats?: number
-      carbs?: number
-    },
-  ) {
+  constructor(name: string, caloriePerHundredGram: number) {
     this.id = this.generateId()
     this.name = name
-    this.amount = amount
-    this.unit = unit
-    this.gramPerUnit = gramPerUnit
-    this.nutritionPer100Gram = nutritionPer100gram
+    this.caloriePerHundredGram = caloriePerHundredGram
   }
 
   private generateId() {

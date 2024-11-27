@@ -36,6 +36,15 @@ describe('RecipeValidator', () => {
     })
   })
 
+  describe('instructions validation', () => {
+    it('should throw an exception when instructions are missing', () => {
+      const recipe = new Recipe('Omelette', [], '', 1)
+      expect(() => RecipeValidator.validate(recipe)).toThrow(
+        'Recipe must have a valid instructions as a non-empty string.',
+      )
+    })
+  })
+
 
 
 })

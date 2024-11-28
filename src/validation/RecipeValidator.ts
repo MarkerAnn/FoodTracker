@@ -1,11 +1,18 @@
 import { Recipe } from '../models/Recipe'
 
 export class RecipeValidator {
-  ValidateRecipe(recipe: Recipe): void {
+  validateRecipe(recipe: Recipe): void {
     if (!recipe || typeof recipe !== 'object') {
       throw new Error('Recipe must be a valid object.')
     }
   }
+
+  validateName(recipe: Recipe): void {
+    if (!recipe.name || typeof recipe.name !== 'string') {
+      throw new Error('Recipe must have a valid name as a non-empty string.')
+    }
+  }
+
   //   static validate(recipe: Recipe) {
   //     if (!recipe || typeof recipe !== 'object') {
   //       throw new Error('Recipe must be a valid object.')

@@ -12,7 +12,7 @@ describe('RecipeValidator', () => {
   describe('basic validation', () => {
     it('should throw an exception if recipe is undefined', () => {
       const recipe = undefined as unknown as Recipe
-      expect(() => validator.ValidateRecipe(recipe)).toThrow(
+      expect(() => validator.validateRecipe(recipe)).toThrow(
         'Recipe must be a valid object.',
       )
     })
@@ -27,13 +27,13 @@ describe('RecipeValidator', () => {
     })
   })
 
-  //   describe('amount validation', () => {
-  //     it('should throw an exception when servings is negative', () => {
-  //       const recipe = new Recipe('Omelette', [], 'Cook it', -1)
-  //       expect(() => RecipeValidator.validate(recipe)).toThrow(
-  //         'Recipe must have a positive amount of servings greater than 0.',
-  //       )
-  //     })
+    describe('amount validation', () => {
+      it('should throw an exception when servings is negative', () => {
+        const recipe = new Recipe('Omelette', [], 'Cook it', -1)
+        expect(() => validator.validateAmount(recipe)).toThrow(
+          'Recipe must have a positive amount of servings greater than 0.',
+        )
+      })
 
   //     it('should throw an exception when servings is zero', () => {
   //       const recipe = new Recipe('Omelette', [], 'Cook it', 0)

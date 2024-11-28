@@ -71,22 +71,12 @@ describe('RecipeValidator', () => {
     )
   })
 
-  //   describe('ingredients validation', () => {
-  //     it('should throw an exception when ingredients array is empty', () => {
-  //       const recipe = new Recipe('Omelette', [], 'Cook it', 1)
-  //       expect(() => RecipeValidator.validate(recipe)).toThrow(
-  //         'Recipe must have at least one ingredient.',
-  //       )
-  //     })
-
-  //     it('should throw an exception when ingredients is not an array', () => {
-  //       const invalidIngredients = 6 as unknown as {
-  //         ingredient: typeof ingredientEgg
-  //         amount: number
-  //       }[]
-  //       expect(
-  //         () => new Recipe('Omelette', invalidIngredients, 'Cook it', 1),
-  //       ).toThrow('Ingredients must be an array.')
-  //     })
-  //   })
+  describe('ingredients validation', () => {
+    it('should throw an exception when ingredients array is empty', () => {
+      const recipe = new Recipe('Omelette', [], 'Cook it', 1)
+      expect(() => validator.validateIngredient(recipe)).toThrow(
+        'Recipe must have at least one ingredient.',
+      )
+    })
+  })
 })

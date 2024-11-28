@@ -46,11 +46,12 @@ export class IngredientManager {
 
   calculateCaloriesPerUnit(id: string): number {
     const ingredient = this.getValidatedIngredient(id)
-    if (ingredient.gramPerUnit === undefined) {
-      throw new Error('gramPerUnit is not defined for this ingredient.')
+    if (!ingredient.unit || !ingredient.gramPerUnit) {
+      throw new Error('Unit and gramPerUnit must be defined.')
     }
-
-    return ingredient.caloriePerHundredGram * (ingredient.gramPerUnit / 100)
+    const caloriesPerUnit =
+      (ingredient.caloriePerHundredGram / 100) * ingredient.gramPerUnit
+    return caloriesPerUnit
   }
 
   private findIngredient(id: string) {

@@ -62,6 +62,51 @@ describe('IngredientManager', () => {
     )
   })
 
+  it('should update detailed nutrition data even if it already exists', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.setDtailedNutritions(ingredient.id, {
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
+
+    manager.setDtailedNutritions(ingredient.id, {
+      proteins: 15,
+      fats: 12,
+      carbs: 2,
+    })
+
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        nutritionPer100Gram: { proteins: 15, fats: 12, carbs: 2 },
+      }),
+    )
+  })
+
+  it('should set unit and weight to an ingredient', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.setUnitAndWeight(ingredient.id, 'PCS', 50)
+
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        unit: 'PCS',
+        gramPerUnit: 50,
+      }),
+    )
+  })
+
   //   it('should update an ingredient', () => {
   //     const manager = new IngredientManager()
   //     const ingredient = ingredientEgg

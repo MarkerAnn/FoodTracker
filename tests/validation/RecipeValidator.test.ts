@@ -1,6 +1,6 @@
 import { RecipeValidator } from '../../src/validation/RecipeValidator'
 import { Recipe } from '../../src/models/Recipe'
-import { ingredientEgg } from '../mockData/ingredients.mockData'
+import { ingredientEgg, omelettEgg } from '../mockData/ingredients.mockData'
 
 describe('RecipeValidator', () => {
   let validator: RecipeValidator
@@ -18,9 +18,47 @@ describe('RecipeValidator', () => {
     })
   })
 
+  it('should throw an exception if recipe is not an object (string)', () => {
+    const recipe = 'not-an-object' as unknown as Recipe
+    expect(() => validator.validateRecipe(recipe)).toThrow(
+      'Recipe must be a valid object.',
+    )
+  })
+
+  it('should throw an exception if recipe is not an object (number)', () => {
+    const recipe = 42 as unknown as Recipe
+    expect(() => validator.validateRecipe(recipe)).toThrow(
+      'Recipe must be a valid object.',
+    )
+  })
+
+  it('should not throw an exception if recipe is a valid object', () => {
+    const recipe = new Recipe(
+      'Omelette',
+      [{ ingredientId: omelettEgg.id, amount: 6 }],
+      'Cook it',
+      1,
+    )
+    expect(() => validator.validateRecipe(recipe)).not.toThrow()
+  })
+
+  it('should throw an exception if recipe is null', () => {
+    const recipe = null as unknown as Recipe
+    expect(() => validator.validateRecipe(recipe)).toThrow(
+      'Recipe must be a valid object.',
+    )
+  })
+
   describe('name validation', () => {
     it('should throw an exception when name is empty', () => {
       const recipe = new Recipe('', [], 'Cook it', 1)
+      expect(() => validator.validateName(recipe)).toThrow(
+        'Recipe must have a valid name as a non-empty string.',
+      )
+    })
+
+    it('should throw an exception when name is not a string', () => {
+      const recipe = new Recipe(6 as unknown as string, [], 'Cook it', 1)
       expect(() => validator.validateName(recipe)).toThrow(
         'Recipe must have a valid name as a non-empty string.',
       )

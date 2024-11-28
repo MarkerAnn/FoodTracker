@@ -1,26 +1,40 @@
 import { RecipeManager } from '../../src/services/RecipeManager'
 import { Recipe } from '../../src/models/Recipe'
-import { ingredientMilk, ingredientEgg } from '../mockData/ingredients.mockData'
+import { omelettMilk, omelettEgg } from '../mockData/ingredients.mockData'
 
 describe('RecipeManager', () => {
-  it('should add a recipe', () => {
-    const manager = new RecipeManager()
+  let manager: RecipeManager
 
-    const instructions =
-      'Whisk eggs and milk together. Pour into a hot pan and cook until set.'
-    const servings = 2
+  beforeEach(() => {
+    manager = new RecipeManager()
+  })
 
-    const recipe = new Recipe(
-      'Omelette',
-      [
-        { ingredient: ingredientEgg, amount: 6 },
-        { ingredient: ingredientMilk, amount: 2 },
-      ],
-      instructions,
-      servings,
-    )
+  describe('Basic Recipe Operations', () => {
+    it('should create a recipe with basic information', () => {
+      const name = 'Omelette'
+      const instructions =
+        'Whisk eggs and milk together. Pour into a hot pan and cook until set.'
+      const servings = 2
+      const ingredients = [
+        { ingredientId: omelettEgg.id, amount: 6 },
+        { ingredientId: omelettMilk.id, amount: 2 },
+      ]
 
-    manager.addRecipe(recipe)
-    expect(manager.getRecipes()).toContainEqual(recipe)
+      const recipe = manager.createRecipe(
+        name,
+        ingredients,
+        instructions,
+        servings,
+      )
+
+      expect(manager.getRecipes()).toContainEqual(
+        expect.objectContaining({
+          name,
+          ingredients,
+          instructions,
+          servings,
+        }),
+      )
+    })
   })
 })

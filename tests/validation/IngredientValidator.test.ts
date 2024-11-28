@@ -1,6 +1,5 @@
 import { IngredientValidator } from '../../src/validation/IngredientValidator'
 import { Ingredient } from '../../src/models/Ingredient'
-// import { Unit } from '../../src/enums/Unit'
 
 describe('IngredientValidator', () => {
   let validator: IngredientValidator

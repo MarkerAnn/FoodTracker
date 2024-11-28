@@ -1,3 +1,5 @@
+import { Ingredient } from '../../models/Ingredient'
+
 export interface iRecipe {
   id: string
   name: string

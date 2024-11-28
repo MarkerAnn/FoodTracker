@@ -8,9 +8,24 @@ import { Ingredient } from '../../src/models/Ingredient'
 //   carbs: 1,
 // })
 
-export const ingredientEgg = { name: 'Egg', caloriePerHundredGram: 155 }
+export const ingredientEgg = {
+  name: 'Egg',
+  caloriePerHundredGram: 155,
+}
 
 export const ingredientSkimMilk = {
+  name: 'Skim Milk',
+  caloriePerHundredGram: 42,
+}
+
+export const omelettEgg = {
+  id: 'ing_1z4z5z',
+  name: 'Egg',
+  caloriePerHundredGram: 155,
+}
+
+export const omelettMilk = {
+  id: 'ing_1z4z5z',
   name: 'Skim Milk',
   caloriePerHundredGram: 42,
 }

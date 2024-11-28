@@ -1,10 +1,12 @@
 import { Ingredient } from '../models/Ingredient'
 import { IngredientValidator } from '../validation/IngredientValidator'
 import { Unit } from '../enums/Unit'
+import { NutritionValues } from '../types/nutritionValues'
 
 export class IngredientManager {
   private ingredients: Ingredient[] = []
   private validator = new IngredientValidator()
+  FACTOR = 100
 
   createIngredient(name: string, caloriePerHundredGram: number): Ingredient {
     // Validera input
@@ -50,42 +52,49 @@ export class IngredientManager {
       throw new Error('Unit and gramPerUnit must be defined.')
     }
     const caloriesPerUnit =
-      (ingredient.caloriePerHundredGram / 100) * ingredient.gramPerUnit
+      (ingredient.caloriePerHundredGram / this.FACTOR) * ingredient.gramPerUnit
     return caloriesPerUnit
   }
 
-  calculateDetailedNutritionPerUnit(id: string): {
-    proteins: number
-    fats: number
-    carbs: number
-  } {
+  calculateDetailedNutritionPerUnit(id: string): NutritionValues {
     const ingredient = this.getValidatedIngredient(id)
+    this.validateIngredientForNutrition(ingredient)
+
+    return {
+      proteins: this.calculateNutritionValue(
+        ingredient.nutritionPer100Gram?.proteins,
+        ingredient.gramPerUnit!,
+      ),
+      fats: this.calculateNutritionValue(
+        ingredient.nutritionPer100Gram?.fats,
+        ingredient.gramPerUnit!,
+      ),
+      carbs: this.calculateNutritionValue(
+        ingredient.nutritionPer100Gram?.carbs,
+        ingredient.gramPerUnit!,
+      ),
+    }
+  }
+
+  private validateIngredientForNutrition(ingredient: Ingredient): void {
     if (!ingredient.unit || !ingredient.gramPerUnit) {
       throw new Error('Unit and gramPerUnit must be defined.')
     }
-    if (!ingredient.nutritionPer100Gram) {
+
+    if (
+      !ingredient.nutritionPer100Gram?.proteins &&
+      !ingredient.nutritionPer100Gram?.fats &&
+      !ingredient.nutritionPer100Gram?.carbs
+    ) {
       throw new Error('Nutrition per 100 gram must be defined.')
     }
-    const nutritionPerUnit = {
-      proteins:
-        ingredient.nutritionPer100Gram &&
-        ingredient.nutritionPer100Gram.proteins !== undefined
-          ? (ingredient.nutritionPer100Gram.proteins / 100) *
-            ingredient.gramPerUnit
-          : 0,
-      fats:
-        ingredient.nutritionPer100Gram &&
-        ingredient.nutritionPer100Gram.fats !== undefined
-          ? (ingredient.nutritionPer100Gram.fats / 100) * ingredient.gramPerUnit
-          : 0,
-      carbs:
-        ingredient.nutritionPer100Gram &&
-        ingredient.nutritionPer100Gram.carbs !== undefined
-          ? (ingredient.nutritionPer100Gram.carbs / 100) *
-            ingredient.gramPerUnit
-          : 0,
-    }
-    return nutritionPerUnit
+  }
+
+  private calculateNutritionValue(
+    value: number | undefined,
+    gramPerUnit: number,
+  ): number {
+    return value !== undefined ? (value / this.FACTOR) * gramPerUnit : 0
   }
 
   private findIngredient(id: string) {
@@ -100,6 +109,5 @@ export class IngredientManager {
     return ingredient
   }
 }
-// TODO: getNutritionPer100Gram
-// TODO: getNutritionPerUnit
+
 // TODO: implement recipemanager

@@ -1,5 +1,6 @@
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { ingredientEgg } from '../mockData/ingredients.mockData'
+import { Unit } from '../../src/enums/Unit'
 
 describe('IngredientManager', () => {
   let manager: IngredientManager
@@ -95,13 +96,13 @@ describe('IngredientManager', () => {
       ingredientEgg.caloriePerHundredGram,
     )
 
-    manager.setUnitAndWeight(ingredient.id, 'PCS', 50)
+    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
 
     expect(manager.getIngredients()).toContainEqual(
       expect.objectContaining({
         name: ingredientEgg.name,
         caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        unit: 'PCS',
+        unit: 'pcs',
         gramPerUnit: 50,
       }),
     )

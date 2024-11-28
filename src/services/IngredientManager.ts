@@ -1,5 +1,6 @@
 import { Ingredient } from '../models/Ingredient'
 import { IngredientValidator } from '../validation/IngredientValidator'
+import { Unit } from '../enums/Unit'
 
 export class IngredientManager {
   private ingredients: Ingredient[] = []
@@ -35,6 +36,12 @@ export class IngredientManager {
   ) {
     const ingredient = this.getValidatedIngredient(id)
     ingredient.nutritionPer100Gram = nutrition
+  }
+
+  setUnitAndWeight(id: string, unit: Unit, gramPerUnit: number) {
+    const ingredient = this.getValidatedIngredient(id)
+    ingredient.unit = unit
+    ingredient.gramPerUnit = gramPerUnit
   }
 
   private findIngredient(id: string) {

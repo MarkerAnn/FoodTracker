@@ -13,6 +13,14 @@ export class RecipeValidator {
     }
   }
 
+  validateAmount(recipe: Recipe): void {
+    if (typeof recipe.servings !== 'number' || recipe.servings <= 0) {
+      throw new Error(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    }
+  }
+
   //   static validate(recipe: Recipe) {
   //     if (!recipe || typeof recipe !== 'object') {
   //       throw new Error('Recipe must be a valid object.')

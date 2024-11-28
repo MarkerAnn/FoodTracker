@@ -27,21 +27,33 @@ describe('RecipeValidator', () => {
     })
   })
 
-    describe('amount validation', () => {
-      it('should throw an exception when servings is negative', () => {
-        const recipe = new Recipe('Omelette', [], 'Cook it', -1)
-        expect(() => validator.validateAmount(recipe)).toThrow(
-          'Recipe must have a positive amount of servings greater than 0.',
-        )
-      })
+  describe('amount validation', () => {
+    it('should throw an exception when servings is negative', () => {
+      const recipe = new Recipe('Omelette', [], 'Cook it', -1)
+      expect(() => validator.validateAmount(recipe)).toThrow(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    })
 
-  //     it('should throw an exception when servings is zero', () => {
-  //       const recipe = new Recipe('Omelette', [], 'Cook it', 0)
-  //       expect(() => RecipeValidator.validate(recipe)).toThrow(
-  //         'Recipe must have a positive amount of servings greater than 0.',
-  //       )
-  //     })
-  //   })
+    it('should throw an exception when servings is zero', () => {
+      const recipe = new Recipe('Omelette', [], 'Cook it', 0)
+      expect(() => validator.validateAmount(recipe)).toThrow(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    })
+
+    it('should throw an exception if servings is not a number', () => {
+      const recipe = new Recipe(
+        'Omelette',
+        [],
+        'Cook it',
+        'six' as unknown as number,
+      )
+      expect(() => validator.validateAmount(recipe)).toThrow(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    })
+  })
 
   //   describe('instructions validation', () => {
   //     it('should throw an exception when instructions are missing', () => {

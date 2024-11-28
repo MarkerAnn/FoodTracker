@@ -21,6 +21,14 @@ export class RecipeValidator {
     }
   }
 
+  validateInstruction(recipe: Recipe): void {
+    if (!recipe.instructions || typeof recipe.instructions !== 'string') {
+      throw new Error(
+        'Recipe must have a valid instructions as a non-empty string.',
+      )
+    }
+  }
+
   //   static validate(recipe: Recipe) {
   //     if (!recipe || typeof recipe !== 'object') {
   //       throw new Error('Recipe must be a valid object.')

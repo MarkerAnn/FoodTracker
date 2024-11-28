@@ -168,6 +168,38 @@ describe('IngredientManager', () => {
           manager.calculateDetailedNutritionPerUnit(testIngredientId),
         ).toThrow('Nutrition per 100 gram must be defined.')
       })
+
+      it('should throw error when all nutrition values are 0 or missing', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 0,
+          fats: 0,
+          carbs: 0,
+        })
+
+        expect(() =>
+          manager.calculateDetailedNutritionPerUnit(testIngredientId),
+        ).toThrow('Nutrition per 100 gram must be defined.')
+      })
+
+      it('should handle undefined values in nutrition calculations', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 13,
+          fats: undefined as any, // Force `undefined`
+          carbs: 1,
+        })
+
+        expect(
+          manager.calculateDetailedNutritionPerUnit(testIngredientId),
+        ).toStrictEqual({
+          proteins: 6.5,
+          fats: 0,
+          carbs: 0.5,
+        })
+      })
     })
   })
 })

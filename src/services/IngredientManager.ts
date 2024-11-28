@@ -54,6 +54,40 @@ export class IngredientManager {
     return caloriesPerUnit
   }
 
+  calculateDetailedNutritionPerUnit(id: string): {
+    proteins: number
+    fats: number
+    carbs: number
+  } {
+    const ingredient = this.getValidatedIngredient(id)
+    if (!ingredient.unit || !ingredient.gramPerUnit) {
+      throw new Error('Unit and gramPerUnit must be defined.')
+    }
+    if (!ingredient.nutritionPer100Gram) {
+      throw new Error('Nutrition per 100 gram must be defined.')
+    }
+    const nutritionPerUnit = {
+      proteins:
+        ingredient.nutritionPer100Gram &&
+        ingredient.nutritionPer100Gram.proteins !== undefined
+          ? (ingredient.nutritionPer100Gram.proteins / 100) *
+            ingredient.gramPerUnit
+          : 0,
+      fats:
+        ingredient.nutritionPer100Gram &&
+        ingredient.nutritionPer100Gram.fats !== undefined
+          ? (ingredient.nutritionPer100Gram.fats / 100) * ingredient.gramPerUnit
+          : 0,
+      carbs:
+        ingredient.nutritionPer100Gram &&
+        ingredient.nutritionPer100Gram.carbs !== undefined
+          ? (ingredient.nutritionPer100Gram.carbs / 100) *
+            ingredient.gramPerUnit
+          : 0,
+    }
+    return nutritionPerUnit
+  }
+
   private findIngredient(id: string) {
     return this.ingredients.find((ingredient) => ingredient.id === id)
   }

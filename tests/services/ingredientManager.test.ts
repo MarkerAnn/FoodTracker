@@ -163,8 +163,10 @@ describe('IngredientManager', () => {
       carbs: 1,
     })
 
-    expect(manager.calculateDetailedNutritionPerUnit(ingredient.id)).toBe({
-      protein: 6.5,
+    expect(
+      manager.calculateDetailedNutritionPerUnit(ingredient.id),
+    ).toStrictEqual({
+      proteins: 6.5,
       fats: 5.5,
       carbs: 0.5,
     })

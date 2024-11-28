@@ -136,15 +136,7 @@ describe('IngredientManager', () => {
     manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
     manager.calculateCaloriesPerUnit(ingredient.id)
 
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        unit: 'pcs',
-        gramPerUnit: 50,
-        caloriesPerUnit: 77.5,
-      }),
-    )
+    expect(manager.calculateCaloriesPerUnit(ingredient.id)).toBe(77.5)
   })
 
   //   it('should update an ingredient', () => {

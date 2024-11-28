@@ -139,26 +139,34 @@ describe('IngredientManager', () => {
     expect(manager.calculateCaloriesPerUnit(ingredient.id)).toBe(77.5)
   })
 
-  //   it('should update an ingredient', () => {
-  //     const manager = new IngredientManager()
-  //     const ingredient = ingredientEgg
+  it('should throw error if unit and weight are not defined', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
 
-  //     manager.addIngredient(ingredient)
-  //     manager.updateIngredient(ingredient.id, { name: 'Egg White' })
+    expect(() => manager.calculateCaloriesPerUnit(ingredient.id)).toThrow(
+      'Unit and gramPerUnit must be defined.',
+    )
+  })
 
-  //     const updatedIngredient = manager
-  //       .getIngredients()
-  //       .find((ing) => ing.id === ingredient.id)
+  it('should calculate detailed nutrition per unit', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
 
-  //     expect(updatedIngredient?.name).toBe('Egg White')
-  //   })
+    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
+    manager.setDtailedNutritions(ingredient.id, {
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
 
-  //   it('should throw error if ingredient you want to update does not exist', () => {
-  //     const manager = new IngredientManager()
-  //     const ingredient = ingredientEgg
-
-  //     expect(() =>
-  //       manager.updateIngredient(ingredient.id, { name: 'Egg White' }),
-  //     ).toThrow('Ingredient does not exist.')
-  //   })
+    expect(manager.calculateDetailedNutritionPerUnit(ingredient.id)).toBe({
+      protein: 6.5,
+      fats: 5.5,
+      carbs: 0.5,
+    })
+  })
 })

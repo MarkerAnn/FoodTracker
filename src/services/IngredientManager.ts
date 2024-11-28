@@ -9,7 +9,7 @@ export class IngredientManager {
   createIngredient(name: string, caloriePerHundredGram: number): Ingredient {
     // Validera input
     this.validator.validateIngredientName(name)
-    // this.validator.validateCalories(caloriePerHundredGram)
+    this.validator.validateCalories(caloriePerHundredGram)
 
     const ingredient = new Ingredient(name, caloriePerHundredGram)
 
@@ -65,30 +65,6 @@ export class IngredientManager {
     }
     return ingredient
   }
-
-  // private findIngredient(id: string) {
-  //   return this.ingredients.find((ingredient) => ingredient.id === id)
-  // }
-
-  //   updateIngredient(id: string, updateFields: Partial<Ingredient>) {
-  //     const ingredient = this.findIngredient(id)
-
-  //     if (!ingredient) {
-  //       throw new Error('Ingredient does not exist.')
-  //     }
-
-  //     const updateIngredient = {
-  //       ...ingredient,
-  //       ...updateFields,
-  //       id: ingredient.id,
-  //     }
-
-  //     IngredientValidator.validate(updateIngredient as Ingredient)
-
-  //     const index = this.ingredients.findIndex((ing) => ing.id === id)
-  //     this.ingredients[index] = updateIngredient as Ingredient
-  //     return updateIngredient
-  //   }
 }
 // TODO: getNutritionPer100Gram
 // TODO: getNutritionPerUnit

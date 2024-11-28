@@ -171,4 +171,28 @@ describe('IngredientManager', () => {
       carbs: 0.5,
     })
   })
+
+  it('should throw error when unit or gramPerUnit is missing', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    expect(() =>
+      manager.calculateDetailedNutritionPerUnit(ingredient.id),
+    ).toThrow('Unit and gramPerUnit must be defined.')
+  })
+
+  it('should throw error when nutrition values are missing', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
+
+    expect(() =>
+      manager.calculateDetailedNutritionPerUnit(ingredient.id),
+    ).toThrow('Nutrition per 100 gram must be defined.')
+  })
 })

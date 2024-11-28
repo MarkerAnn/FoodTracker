@@ -29,6 +29,12 @@ export class RecipeValidator {
     }
   }
 
+  validateIngredient(recipe: Recipe): void {
+    if (!recipe.ingredients || !recipe.ingredients.length) {
+      throw new Error('Recipe must have at least one ingredient.')
+    }
+  }
+
   //   static validate(recipe: Recipe) {
   //     if (!recipe || typeof recipe !== 'object') {
   //       throw new Error('Recipe must be a valid object.')

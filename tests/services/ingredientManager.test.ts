@@ -41,24 +41,26 @@ describe('IngredientManager', () => {
     )
   })
 
-  //   it('should delete an ingredient', () => {
-  //     const manager = new IngredientManager()
-  //     const ingredient = ingredientEgg
+  it('should add detailed nutrition information to an ingredient', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
 
-  //     manager.addIngredient(ingredient)
-  //     manager.deleteIngredient(ingredient.id)
+    manager.setDtailedNutritions(ingredient.id, {
+      proteins: 13,
+      fats: 11,
+      carbs: 1,
+    })
 
-  //     expect(manager.getIngredients()).not.toContainEqual(ingredient)
-  //   })
-
-  //   it('should throw error if ingredient does not exist', () => {
-  //     const manager = new IngredientManager()
-  //     const ingredient = ingredientEgg
-
-  //     expect(() => manager.deleteIngredient(ingredient.id)).toThrow(
-  //       'Ingredient does not exist.',
-  //     )
-  //   })
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        nutritionPer100Gram: { proteins: 13, fats: 11, carbs: 1 },
+      }),
+    )
+  })
 
   //   it('should update an ingredient', () => {
   //     const manager = new IngredientManager()

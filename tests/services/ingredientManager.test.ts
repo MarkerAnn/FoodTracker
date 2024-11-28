@@ -4,195 +4,170 @@ import { Unit } from '../../src/enums/Unit'
 
 describe('IngredientManager', () => {
   let manager: IngredientManager
+  let testIngredientId: string
 
   beforeEach(() => {
     manager = new IngredientManager()
   })
 
-  it('should add an ingredient', () => {
-    manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
+  describe('Basic Ingredient Operations', () => {
+    it('should add a new ingredient', () => {
+      manager.createIngredient(
+        ingredientEgg.name,
+        ingredientEgg.caloriePerHundredGram,
+      )
 
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-      }),
-    )
-  })
-
-  it('should delete an ingredient', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.deleteIngredient(ingredient.id)
-
-    expect(manager.getIngredients()).not.toContainEqual(ingredient)
-  })
-
-  it('should throw error if ingredient does not exist', () => {
-    const ingredient = { id: '123', name: 'Egg', caloriePerHundredGram: 155 }
-
-    expect(() => manager.deleteIngredient(ingredient.id)).toThrow(
-      'Ingredient does not exist.',
-    )
-  })
-
-  it('should add detailed nutrition information to an ingredient', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.setDtailedNutritions(ingredient.id, {
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
+      expect(manager.getIngredients()).toContainEqual(
+        expect.objectContaining({
+          name: ingredientEgg.name,
+          caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        }),
+      )
     })
 
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        nutritionPer100Gram: { proteins: 13, fats: 11, carbs: 1 },
-      }),
-    )
-  })
+    it('should delete an existing ingredient', () => {
+      const ingredient = manager.createIngredient(
+        ingredientEgg.name,
+        ingredientEgg.caloriePerHundredGram,
+      )
 
-  it('should update detailed nutrition data even if it already exists', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
+      manager.deleteIngredient(ingredient.id)
 
-    manager.setDtailedNutritions(ingredient.id, {
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
+      expect(manager.getIngredients()).not.toContainEqual(ingredient)
     })
 
-    manager.setDtailedNutritions(ingredient.id, {
-      proteins: 15,
-      fats: 12,
-      carbs: 2,
-    })
-
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        nutritionPer100Gram: { proteins: 15, fats: 12, carbs: 2 },
-      }),
-    )
-  })
-
-  it('should set unit and weight to an ingredient', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
-
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        unit: 'pcs',
-        gramPerUnit: 50,
-      }),
-    )
-  })
-
-  it('should update unit and weight even if it already exists', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
-    manager.setUnitAndWeight(ingredient.id, Unit.G, 100)
-
-    expect(manager.getIngredients()).toContainEqual(
-      expect.objectContaining({
-        name: ingredientEgg.name,
-        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
-        unit: 'g',
-        gramPerUnit: 100,
-      }),
-    )
-  })
-
-  it('Should calculate the calories per unit', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
-    manager.calculateCaloriesPerUnit(ingredient.id)
-
-    expect(manager.calculateCaloriesPerUnit(ingredient.id)).toBe(77.5)
-  })
-
-  it('should throw error if unit and weight are not defined', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    expect(() => manager.calculateCaloriesPerUnit(ingredient.id)).toThrow(
-      'Unit and gramPerUnit must be defined.',
-    )
-  })
-
-  it('should calculate detailed nutrition per unit', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
-
-    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
-    manager.setDtailedNutritions(ingredient.id, {
-      proteins: 13,
-      fats: 11,
-      carbs: 1,
-    })
-
-    expect(
-      manager.calculateDetailedNutritionPerUnit(ingredient.id),
-    ).toStrictEqual({
-      proteins: 6.5,
-      fats: 5.5,
-      carbs: 0.5,
+    it('should throw error when deleting non-existent ingredient', () => {
+      expect(() => manager.deleteIngredient('123')).toThrow(
+        'Ingredient does not exist.',
+      )
     })
   })
 
-  it('should throw error when unit or gramPerUnit is missing', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
+  describe('Nutrition Management', () => {
+    beforeEach(() => {
+      const ingredient = manager.createIngredient(
+        ingredientEgg.name,
+        ingredientEgg.caloriePerHundredGram,
+      )
+      testIngredientId = ingredient.id
+    })
 
-    expect(() =>
-      manager.calculateDetailedNutritionPerUnit(ingredient.id),
-    ).toThrow('Unit and gramPerUnit must be defined.')
+    describe('Detailed Nutrition', () => {
+      it('should add detailed nutrition information', () => {
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 13,
+          fats: 11,
+          carbs: 1,
+        })
+
+        expect(manager.getIngredients()).toContainEqual(
+          expect.objectContaining({
+            nutritionPer100Gram: { proteins: 13, fats: 11, carbs: 1 },
+          }),
+        )
+      })
+
+      it('should update existing nutrition information', () => {
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 13,
+          fats: 11,
+          carbs: 1,
+        })
+
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 15,
+          fats: 12,
+          carbs: 2,
+        })
+
+        expect(manager.getIngredients()).toContainEqual(
+          expect.objectContaining({
+            nutritionPer100Gram: { proteins: 15, fats: 12, carbs: 2 },
+          }),
+        )
+      })
+    })
+
+    describe('Unit and Weight Management', () => {
+      it('should set unit and weight', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+
+        expect(manager.getIngredients()).toContainEqual(
+          expect.objectContaining({
+            unit: 'pcs',
+            gramPerUnit: 50,
+          }),
+        )
+      })
+
+      it('should update existing unit and weight', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+        manager.setUnitAndWeight(testIngredientId, Unit.G, 100)
+
+        expect(manager.getIngredients()).toContainEqual(
+          expect.objectContaining({
+            unit: 'g',
+            gramPerUnit: 100,
+          }),
+        )
+      })
+    })
   })
 
-  it('should throw error when nutrition values are missing', () => {
-    const ingredient = manager.createIngredient(
-      ingredientEgg.name,
-      ingredientEgg.caloriePerHundredGram,
-    )
+  describe('Calculations', () => {
+    beforeEach(() => {
+      const ingredient = manager.createIngredient(
+        ingredientEgg.name,
+        ingredientEgg.caloriePerHundredGram,
+      )
+      testIngredientId = ingredient.id
+    })
 
-    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
+    describe('Calorie Calculations', () => {
+      it('should calculate calories per unit correctly', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
 
-    expect(() =>
-      manager.calculateDetailedNutritionPerUnit(ingredient.id),
-    ).toThrow('Nutrition per 100 gram must be defined.')
+        expect(manager.calculateCaloriesPerUnit(testIngredientId)).toBe(77.5)
+      })
+
+      it('should throw error when calculating calories without unit and weight', () => {
+        expect(() =>
+          manager.calculateCaloriesPerUnit(testIngredientId),
+        ).toThrow('Unit and gramPerUnit must be defined.')
+      })
+    })
+
+    describe('Detailed Nutrition Calculations', () => {
+      it('should calculate detailed nutrition per unit correctly', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+        manager.setDtailedNutritions(testIngredientId, {
+          proteins: 13,
+          fats: 11,
+          carbs: 1,
+        })
+
+        expect(
+          manager.calculateDetailedNutritionPerUnit(testIngredientId),
+        ).toStrictEqual({
+          proteins: 6.5,
+          fats: 5.5,
+          carbs: 0.5,
+        })
+      })
+
+      it('should throw error when calculating nutrition without unit and weight', () => {
+        expect(() =>
+          manager.calculateDetailedNutritionPerUnit(testIngredientId),
+        ).toThrow('Unit and gramPerUnit must be defined.')
+      })
+
+      it('should throw error when calculating nutrition without nutrition values', () => {
+        manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
+
+        expect(() =>
+          manager.calculateDetailedNutritionPerUnit(testIngredientId),
+        ).toThrow('Nutrition per 100 gram must be defined.')
+      })
+    })
   })
 })

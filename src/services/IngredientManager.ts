@@ -109,5 +109,3 @@ export class IngredientManager {
     return ingredient
   }
 }
-
-// TODO: implement recipemanager

@@ -7,7 +7,7 @@ export class Recipe implements iRecipe {
   ingredients: { ingredientId: string; amount: number }[]
   instructions: string
   servings: number
-  nutritionPerPortion: {
+  nutritionPerPortion?: {
     calories?: number
     proteins?: number
     fats?: number
@@ -31,7 +31,6 @@ export class Recipe implements iRecipe {
     }))
     this.instructions = instructions
     this.servings = servings
-    this.nutritionPerPortion = {}
   }
 
   private generateId() {

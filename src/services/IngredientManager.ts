@@ -1,5 +1,6 @@
 import { Ingredient } from '../models/Ingredient'
 import { IngredientValidator } from '../validation/IngredientValidator'
+
 export class IngredientManager {
   private ingredients: Ingredient[] = []
   private validator = new IngredientValidator()
@@ -22,17 +23,30 @@ export class IngredientManager {
   }
 
   deleteIngredient(id: string) {
-    if (this.findIngredient(id)) {
-      this.ingredients = this.ingredients.filter(
-        (ingredient) => ingredient.id !== id,
-      )
-    } else {
-      throw new Error('Ingredient does not exist.')
-    }
+    this.getValidatedIngredient(id)
+    this.ingredients = this.ingredients.filter(
+      (ingredient) => ingredient.id !== id,
+    )
+  }
+
+  setDtailedNutritions(
+    id: string,
+    nutrition: { proteins: number; fats: number; carbs: number },
+  ) {
+    const ingredient = this.getValidatedIngredient(id)
+    ingredient.nutritionPer100Gram = nutrition
   }
 
   private findIngredient(id: string) {
     return this.ingredients.find((ingredient) => ingredient.id === id)
+  }
+
+  private getValidatedIngredient(id: string) {
+    const ingredient = this.findIngredient(id)
+    if (!ingredient) {
+      throw new Error('Ingredient does not exist.')
+    }
+    return ingredient
   }
 
   // private findIngredient(id: string) {

@@ -108,6 +108,45 @@ describe('IngredientManager', () => {
     )
   })
 
+  it('should update unit and weight even if it already exists', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
+    manager.setUnitAndWeight(ingredient.id, Unit.G, 100)
+
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        unit: 'g',
+        gramPerUnit: 100,
+      }),
+    )
+  })
+
+  it('Should calculate the calories per unit', () => {
+    const ingredient = manager.createIngredient(
+      ingredientEgg.name,
+      ingredientEgg.caloriePerHundredGram,
+    )
+
+    manager.setUnitAndWeight(ingredient.id, Unit.PCS, 50)
+    manager.calculateCaloriesPerUnit(ingredient.id)
+
+    expect(manager.getIngredients()).toContainEqual(
+      expect.objectContaining({
+        name: ingredientEgg.name,
+        caloriePerHundredGram: ingredientEgg.caloriePerHundredGram,
+        unit: 'pcs',
+        gramPerUnit: 50,
+        caloriesPerUnit: 77.5,
+      }),
+    )
+  })
+
   //   it('should update an ingredient', () => {
   //     const manager = new IngredientManager()
   //     const ingredient = ingredientEgg

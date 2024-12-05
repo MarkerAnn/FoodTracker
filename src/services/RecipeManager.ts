@@ -12,16 +12,20 @@ export class RecipeManager {
     servings: number,
   ): Recipe {
     const recipe = new Recipe(name, ingredients, instructions, servings)
-    this.validator.validateName(recipe)
-    this.validator.validateInstruction(recipe)
-    this.validator.validateAmount(recipe)
-    this.validator.validateIngredient(recipe)
+    this.validateRecipe(recipe)
     this.recipes.push(recipe)
     return recipe
   }
 
   getRecipes() {
     return this.recipes
+  }
+
+  private validateRecipe(recipe: Recipe): void {
+    this.validator.validateName(recipe)
+    this.validator.validateInstruction(recipe)
+    this.validator.validateAmount(recipe)
+    this.validator.validateIngredient(recipe)
   }
 }
 

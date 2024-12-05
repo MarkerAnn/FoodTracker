@@ -20,7 +20,7 @@ export class RecipeManager {
   }
 }
 
-// TODO: getNutritionPer100Gram
+// TODO: getCaloriesPerPortion
 // TODO: getNutritionPerPortion
 // TODO: updateRecipe
 // TODO: deleteRecipe

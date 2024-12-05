@@ -37,4 +37,12 @@ describe('RecipeManager', () => {
       )
     })
   })
+
+  describe('RecipeManager - Validation', () => {
+    it('should throw an error when creating recipe with empty name', () => {
+      expect(() => manager.createRecipe('', [], 'Cook it', 1)).toThrow(
+        'Recipe must have a valid name as a non-empty string.',
+      )
+    })
+  })
 })

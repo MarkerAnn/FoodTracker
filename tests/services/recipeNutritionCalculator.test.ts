@@ -68,17 +68,22 @@ describe('RecipeNutritionCalculator', () => {
         const detailedNutritionPerPortion =
           calculator.getDetailedNutritionPerPortion(recipe)
 
-        // EGG: 155 cal per 100g -> 60g = 155 * 0.6 = 93
-        // MILK: 42 cal per 100g -> 100g = 42 * 1 = 42
-        // OMELETTE: 2 eggs + 1 dl milk = (93*2) + 42 = 228
-        // EGG: 13g proteins, 11g fats, 1g carbs
-        // MILK: 3.4g proteins, 0.1g fats, 4.7g carbs
-        // OMELETTE: 13*2 + 3.4 = 29.4g proteins, 11*2 + 0.1 = 22.2g fats, 1*2 + 4.7 = 6.7g carbs
-        expect(detailedNutritionPerPortion).toStrictEqual({
-          proteins: 29.4,
-          fats: 22.2,
-          carbs: 6.7,
-        })
+        // Calculate per ingredient:
+
+        // Egg (per 100g has 13g protein, 11g fat, 1g carb)
+        // Each egg is 60g, so multiply values by 0.6
+        // For 2 eggs: multiply by 2
+        // Milk (per 100g has 3.4g protein, 0.1g fat, 4.7g carb)
+        // 1 dl milk is 100g, so use values as is
+        // For 1 dl: multiply by 1
+
+        // Sum up totals:
+        // Proteins: (13 * 0.6 * 2) + (3.4 * 1) = 15.6 + 3.4 = 19
+        // Fats: (11 * 0.6 * 2) + (0.1 * 1) = 13.2 + 0.1 = 13.3
+        // Carbs: (1 * 0.6 * 2) + (4.7 * 1) = 1.2 + 4.7 = 5.9
+        expect(detailedNutritionPerPortion.proteins).toBeCloseTo(19.0, 1)
+        expect(detailedNutritionPerPortion.fats).toBeCloseTo(13.3, 1)
+        expect(detailedNutritionPerPortion.carbs).toBeCloseTo(5.9, 1)
       })
     })
   })

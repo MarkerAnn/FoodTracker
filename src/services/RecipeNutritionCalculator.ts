@@ -13,4 +13,24 @@ export class RecipeNutritionCalculator {
     }, 0)
     return totalCalories / recipe.servings
   }
+
+  getDetailedNutritionPerPortion(recipe: Recipe) {
+    const totalNutrition = recipe.ingredients.reduce((sum, ingredient) => {
+      const nutritionPerUnit =
+        this.ingredientManager.calculateDetailedNutritionPerUnit(
+          ingredient.ingredientId,
+        )
+        return {
+          proteins: sum.proteins + nutritionPerUnit.proteins * ingredient.amount,
+          fats: sum.fats + nutritionPerUnit.fats * ingredient.amount,
+          carbs: sum.carbs + nutritionPerUnit.carbs * ingredient.amount,
+        }
+      }, 
+      { proteins: 0, fats: 0, carbs: 0 })
+      return {
+        proteins: totalNutrition.proteins / recipe.servings,
+        fats: totalNutrition.fats / recipe.servings,
+        carbs: totalNutrition.carbs / recipe.servings,
+      }
+  }
 }

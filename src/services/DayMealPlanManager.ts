@@ -9,6 +9,7 @@ export class DayMealPlanManager {
   addMeal(mealType: MealType, recipeId: string) {
     this.validateMealType(mealType)
     this.validateRecipeId(recipeId)
+    this.validateRecipeExists(recipeId)
     this.meals.push({ mealType, recipeId })
   }
 
@@ -25,6 +26,14 @@ export class DayMealPlanManager {
   private validateRecipeId(recipeId: string): void {
     if (!recipeId || typeof recipeId !== 'string' || !recipeId.trim()) {
       throw new Error('Recipe ID must be a non-empty string.')
+    }
+  }
+
+  private validateRecipeExists(recipeId: string): void {
+    if (
+      !this.recipeManager.getRecipes().find((recipe) => recipe.id === recipeId)
+    ) {
+      throw new Error(`Recipe with ID ${recipeId} does not exist.`)
     }
   }
 }

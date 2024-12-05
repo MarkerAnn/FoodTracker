@@ -9,12 +9,8 @@ export class RecipeNutritionCalculator {
       const caloriesPerUnit = this.ingredientManager.calculateCaloriesPerUnit(
         ingredient.ingredientId,
       )
-      console.log('caloriesPerUnit', caloriesPerUnit)
-      console.log('ingredient.amount', ingredient.amount)
       return sum + caloriesPerUnit * ingredient.amount
     }, 0)
-    console.log('totalCalories', totalCalories)
-
     return totalCalories / recipe.servings
   }
 }

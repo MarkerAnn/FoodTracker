@@ -8,6 +8,7 @@ export class DayMealPlanManager {
 
   addMeal(mealType: MealType, recipeId: string) {
     this.validateMealType(mealType)
+    this.validateRecipeId(recipeId)
     this.meals.push({ mealType, recipeId })
   }
 
@@ -18,6 +19,12 @@ export class DayMealPlanManager {
   private validateMealType(mealType: MealType): void {
     if (!Object.values(MealType).includes(mealType)) {
       throw new Error('Meal type is not valid.')
+    }
+  }
+
+  private validateRecipeId(recipeId: string): void {
+    if (!recipeId || typeof recipeId !== 'string' || !recipeId.trim()) {
+      throw new Error('Recipe ID must be a non-empty string.')
     }
   }
 }

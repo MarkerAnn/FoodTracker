@@ -57,5 +57,11 @@ describe('DayMealPlanManager', () => {
         manager.addMeal('InvalidMealType' as MealType, recipeId),
       ).toThrow('Meal type is not valid.')
     })
+
+    it('it should throw an error when adding meal with empty recipe id', () => {
+      expect(() => manager.addMeal(MealType.Breakfast, '')).toThrow(
+        'Recipe ID must be a non-empty string.',
+      )
+    })
   })
 })

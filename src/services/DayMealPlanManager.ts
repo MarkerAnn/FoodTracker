@@ -1,15 +1,13 @@
 import { RecipeManager } from './RecipeManager'
-
-interface Meal {
-  mealType: string
-  recipeId: string
-}
+import { Meal as MealModel } from '../models/Meal'
+import { Meal as MealType } from '../enums/Meal'
 
 export class DayMealPlanManager {
-  private meals: Meal[] = []
+  private meals: MealModel[] = []
   constructor(private recipeManager: RecipeManager) {}
 
-  addMeal(mealType: string, recipeId: string) {
+  addMeal(mealType: MealType, recipeId: string) {
+    const meal = new MealModel(mealType, recipeId)
     this.meals.push({ mealType, recipeId })
   }
 

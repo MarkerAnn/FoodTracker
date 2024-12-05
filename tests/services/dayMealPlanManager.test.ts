@@ -3,6 +3,7 @@ import { Recipe } from '../../src/models/Recipe'
 import { RecipeManager } from '../../src/services/RecipeManager'
 import { setupRecipe } from '../utils/testHelpers'
 import { IngredientManager } from '../../src/services/IngredientManager'
+import { Meal as MealType } from '../../src/enums/Meal'
 
 describe('DayMealPlanManager', () => {
   let manager: DayMealPlanManager
@@ -22,13 +23,12 @@ describe('DayMealPlanManager', () => {
     it('should add a meal to the day meal plan', () => {
       // REQ-005 - Add a meal to the day meal plan
       // REQ-006 - Connect a recipe to a meal
-      const mealType = 'Breakfast'
-      manager.addMeal(mealType, testRecipe.id)
+      manager.addMeal(MealType.Breakfast, testRecipe.id)
 
       const dayMealPlan = manager.getDayMealPlan()
       expect(dayMealPlan).toContainEqual(
         expect.objectContaining({
-          mealType,
+          mealType: MealType.Breakfast,
           recipeId: testRecipe.id,
         }),
       )

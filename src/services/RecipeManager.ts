@@ -1,8 +1,9 @@
 import { Recipe } from '../models/Recipe'
-// import { RecipeValidator } from '../validation/RecipeValidator'
+import { RecipeValidator } from '../validation/RecipeValidator'
 
 export class RecipeManager {
   private recipes: Recipe[] = []
+  private validator = new RecipeValidator()
 
   createRecipe(
     name: string,
@@ -11,6 +12,7 @@ export class RecipeManager {
     servings: number,
   ): Recipe {
     const recipe = new Recipe(name, ingredients, instructions, servings)
+    this.validator.validateName(recipe)
     this.recipes.push(recipe)
     return recipe
   }

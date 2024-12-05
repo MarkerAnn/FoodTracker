@@ -2,7 +2,8 @@ import { Unit } from '../../src/enums/Unit'
 import { RecipeNutritionCalculator } from '../../src/services/RecipeNutritionCalculator'
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Recipe } from '../../src/models/Recipe'
-import exp from 'constants'
+import { mockNutrition } from '../mockData/ingredients.mockData'
+import { setupIngredientFromMock, setupRecipe } from '../utils/testHelpers'
 
 describe('RecipeNutritionCalculator', () => {
   let calculator: RecipeNutritionCalculator
@@ -15,21 +16,7 @@ describe('RecipeNutritionCalculator', () => {
 
   describe('Basic Recipe Nutrition Calculation', () => {
     it('should calculate calories for a recipe', () => {
-      const egg = ingredientManager.createIngredient('Egg', 155)
-      const milk = ingredientManager.createIngredient('Milk', 42)
-      ingredientManager.setUnitAndWeight(egg.id, Unit.PCS, 60)
-      ingredientManager.setUnitAndWeight(milk.id, Unit.DL, 100)
-
-      const recipe = new Recipe(
-        'Omelette',
-        [
-          { ingredientId: egg.id, amount: 2 },
-          { ingredientId: milk.id, amount: 1 },
-        ],
-        'Cook it',
-        1,
-      )
-
+      const recipe = setupRecipe(ingredientManager)
       const caloriesPerPortion = calculator.getCaloriesPerPortion(recipe)
 
       // EGG: 155 cal per 100g -> 60g = 155 * 0.6 = 93
@@ -40,32 +27,8 @@ describe('RecipeNutritionCalculator', () => {
 
     describe('Detailed Nutrition Calculation', () => {
       it('should calculate detailed nutrition for a recipe', () => {
-        const egg = ingredientManager.createIngredient('Egg', 155)
-        const milk = ingredientManager.createIngredient('Milk', 42)
-        ingredientManager.setUnitAndWeight(egg.id, Unit.PCS, 60)
-        ingredientManager.setUnitAndWeight(milk.id, Unit.DL, 100)
-        ingredientManager.setDtailedNutritions(egg.id, {
-          proteins: 13,
-          fats: 11,
-          carbs: 1,
-        })
-        ingredientManager.setDtailedNutritions(milk.id, {
-          proteins: 3.4,
-          fats: 0.1,
-          carbs: 4.7,
-        })
-
-        const recipe = new Recipe(
-          'Omelette',
-          [
-            { ingredientId: egg.id, amount: 2 },
-            { ingredientId: milk.id, amount: 1 },
-          ],
-          'Cook it',
-          1,
-        )
-
-        const detailedNutritionPerPortion =
+        const recipe = setupRecipe(ingredientManager)
+        const detailedNutrition =
           calculator.getDetailedNutritionPerPortion(recipe)
 
         // Calculate per ingredient:
@@ -81,9 +44,32 @@ describe('RecipeNutritionCalculator', () => {
         // Proteins: (13 * 0.6 * 2) + (3.4 * 1) = 15.6 + 3.4 = 19
         // Fats: (11 * 0.6 * 2) + (0.1 * 1) = 13.2 + 0.1 = 13.3
         // Carbs: (1 * 0.6 * 2) + (4.7 * 1) = 1.2 + 4.7 = 5.9
-        expect(detailedNutritionPerPortion.proteins).toBeCloseTo(19.0, 1)
-        expect(detailedNutritionPerPortion.fats).toBeCloseTo(13.3, 1)
-        expect(detailedNutritionPerPortion.carbs).toBeCloseTo(5.9, 1)
+        expect(detailedNutrition.proteins).toBeCloseTo(19.0, 1)
+        expect(detailedNutrition.fats).toBeCloseTo(13.3, 1)
+        expect(detailedNutrition.carbs).toBeCloseTo(5.9, 1)
+      })
+    })
+
+    describe('Detailed Nutrition Calculation', () => {
+      it('should throw an error when calculating detailed nutrition without ingredient details', () => {
+        const egg = ingredientManager.createIngredient('Egg', 155)
+        const milk = ingredientManager.createIngredient('Milk', 42)
+        ingredientManager.setUnitAndWeight(egg.id, Unit.PCS, 60)
+        ingredientManager.setUnitAndWeight(milk.id, Unit.DL, 100)
+
+        const recipe = new Recipe(
+          'Omelette',
+          [
+            { ingredientId: egg.id, amount: 2 },
+            { ingredientId: milk.id, amount: 1 },
+          ],
+          'Cook it',
+          1,
+        )
+
+        expect(() => calculator.getDetailedNutritionPerPortion(recipe)).toThrow(
+          'Nutrition per 100 gram must be defined',
+        )
       })
     })
   })

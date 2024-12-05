@@ -54,7 +54,7 @@ describe('IngredientManager', () => {
 
     describe('Detailed Nutrition', () => {
       it('should add detailed nutrition information', () => {
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 13,
           fats: 11,
           carbs: 1,
@@ -68,13 +68,13 @@ describe('IngredientManager', () => {
       })
 
       it('should update existing nutrition information', () => {
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 13,
           fats: 11,
           carbs: 1,
         })
 
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 15,
           fats: 12,
           carbs: 2,
@@ -140,7 +140,7 @@ describe('IngredientManager', () => {
     describe('Detailed Nutrition Calculations', () => {
       it('should calculate detailed nutrition per unit correctly', () => {
         manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 13,
           fats: 11,
           carbs: 1,
@@ -172,7 +172,7 @@ describe('IngredientManager', () => {
       it('should throw error when all nutrition values are 0 or missing', () => {
         manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
 
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 0,
           fats: 0,
           carbs: 0,
@@ -186,7 +186,7 @@ describe('IngredientManager', () => {
       it('should handle undefined values in nutrition calculations', () => {
         manager.setUnitAndWeight(testIngredientId, Unit.PCS, 50)
 
-        manager.setDtailedNutritions(testIngredientId, {
+        manager.setDetailedNutritions(testIngredientId, {
           proteins: 13,
           fats: undefined as any, // Force `undefined`
           carbs: 1,

@@ -32,8 +32,7 @@ export class IngredientManager {
     )
   }
 
-  // TODO: typo in method name
-  setDtailedNutritions(
+  setDetailedNutritions(
     id: string,
     nutrition: { proteins: number; fats: number; carbs: number },
   ) {

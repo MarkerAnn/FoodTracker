@@ -56,5 +56,11 @@ describe('RecipeManager', () => {
         'Recipe must have a positive amount of servings greater than 0.',
       )
     })
+
+    it('should throw an error when creating recipe with invalid ingredients', () => {
+      expect(() => manager.createRecipe('Omelette', [], 'Cook it', 1)).toThrow(
+        'Recipe must have at least one ingredient.',
+      )
+    })
   })
 })

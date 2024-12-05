@@ -15,6 +15,7 @@ export class RecipeManager {
     this.validator.validateName(recipe)
     this.validator.validateInstruction(recipe)
     this.validator.validateAmount(recipe)
+    this.validator.validateIngredient(recipe)
     this.recipes.push(recipe)
     return recipe
   }

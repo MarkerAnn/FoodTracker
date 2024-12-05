@@ -16,6 +16,7 @@ describe('RecipeNutritionCalculator', () => {
 
   describe('Basic Recipe Nutrition Calculation', () => {
     it('should calculate calories for a recipe', () => {
+      // REQ-018 - Calculate calories for a recipe
       const recipe = setupRecipe(ingredientManager)
       const caloriesPerPortion = calculator.getCaloriesPerPortion(recipe)
 

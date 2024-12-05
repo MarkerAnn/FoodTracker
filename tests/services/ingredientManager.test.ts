@@ -12,6 +12,7 @@ describe('IngredientManager', () => {
 
   describe('Basic Ingredient Operations', () => {
     it('should add a new ingredient', () => {
+      // REQ-009 - Add a new ingredient
       manager.createIngredient(
         ingredientEgg.name,
         ingredientEgg.caloriePerHundredGram,
@@ -27,6 +28,7 @@ describe('IngredientManager', () => {
 
     it('should delete an existing ingredient', () => {
       const ingredient = manager.createIngredient(
+        // REQ-012 - Delete an existing ingredient
         ingredientEgg.name,
         ingredientEgg.caloriePerHundredGram,
       )
@@ -69,6 +71,7 @@ describe('IngredientManager', () => {
 
       it('should update existing nutrition information', () => {
         manager.setDetailedNutritions(testIngredientId, {
+          // REQ-011 - Update detailed nutrition information
           proteins: 13,
           fats: 11,
           carbs: 1,

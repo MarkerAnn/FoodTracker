@@ -11,6 +11,7 @@ describe('RecipeManager', () => {
 
   describe('Basic Recipe Operations', () => {
     it('should create a recipe with basic information', () => {
+      // REQ-001 - Create a recipe with basic information
       const name = 'Omelette'
       const instructions =
         'Whisk eggs and milk together. Pour into a hot pan and cook until set.'

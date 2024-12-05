@@ -1,52 +1,82 @@
 import { DayMealPlanManager } from '../../src/services/DayMealPlanManager'
 import { Recipe } from '../../src/models/Recipe'
 import { RecipeManager } from '../../src/services/RecipeManager'
-import { setupRecipe } from '../utils/testHelpers'
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Meal as MealType } from '../../src/enums/Meal'
 
 describe('DayMealPlanManager', () => {
   let manager: DayMealPlanManager
   let recipeManager: RecipeManager
-  let testRecipe: Recipe
   let ingredientManager: IngredientManager
 
   beforeEach(() => {
     ingredientManager = new IngredientManager()
     recipeManager = new RecipeManager()
     manager = new DayMealPlanManager(recipeManager)
-
-    testRecipe = setupRecipe(ingredientManager)
   })
 
   describe('Basic Day Meal Plan Operations', () => {
     it('should add a meal to the day meal plan', () => {
       // REQ-005 - Add a meal to the day meal plan
       // REQ-006 - Connect a recipe to a meal
-      manager.addMeal(MealType.Breakfast, testRecipe.id)
+      const egg = ingredientManager.createIngredient('Egg', 155)
+
+      // Skapa recept direkt i RecipeManager
+      const recipe = recipeManager.createRecipe(
+        'Omelette',
+        [{ ingredientId: egg.id, amount: 2 }],
+        'Cook the eggs',
+        1,
+      )
+
+      // Använd receptets ID
+      manager.addMeal(MealType.Breakfast, recipe.id)
 
       const dayMealPlan = manager.getDayMealPlan()
       expect(dayMealPlan).toContainEqual(
         expect.objectContaining({
           mealType: MealType.Breakfast,
-          recipeId: testRecipe.id,
+          recipeId: recipe.id,
         }),
       )
     })
 
     it('should add multiple meals to the day plan', () => {
-      // REQ-005 - Add a meal to the day meal plan
-      // REQ-006 - Connect a recipe to a meal
-      const breakfastId = 'recipe_123'
-      const lunchId = 'recipe_456'
+      // Skapa recept med ingredienser
+      const egg = ingredientManager.createIngredient('Egg', 155)
+      const milk = ingredientManager.createIngredient('Milk', 42)
+      const wheat = ingredientManager.createIngredient('Wheat', 340)
 
-      manager.addMeal(MealType.Breakfast, breakfastId)
-      manager.addMeal(MealType.Lunch, lunchId)
+      const recipe1 = recipeManager.createRecipe(
+        'Omelette',
+        [
+          { ingredientId: egg.id, amount: 2 },
+          { ingredientId: milk.id, amount: 1 },
+        ],
+        'Cook it',
+        1,
+      )
+
+      const recipe2 = recipeManager.createRecipe(
+        'Panncakes',
+        [
+          { ingredientId: wheat.id, amount: 1 },
+          { ingredientId: milk.id, amount: 1 },
+          { ingredientId: egg.id, amount: 2 },
+        ],
+        'Cook it',
+        1,
+      )
+
+      manager.addMeal(MealType.Breakfast, recipe1.id)
+      manager.addMeal(MealType.Lunch, recipe2.id)
 
       const meals = manager.getDayMealPlan()
       expect(meals).toHaveLength(2)
       expect(meals[0].mealType).toBe(MealType.Breakfast)
+      expect(meals[0].recipeId).toBe(recipe1.id)
       expect(meals[1].mealType).toBe(MealType.Lunch)
+      expect(meals[1].recipeId).toBe(recipe2.id)
     })
   })
 

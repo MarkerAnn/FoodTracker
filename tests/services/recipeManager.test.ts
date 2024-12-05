@@ -50,5 +50,11 @@ describe('RecipeManager', () => {
         'Recipe must have a valid instructions as a non-empty string.',
       )
     })
+
+    it('should throw an error when creating recipe with invalid servings', () => {
+      expect(() => manager.createRecipe('Omelette', [], 'Cook it', 0)).toThrow(
+        'Recipe must have a positive amount of servings greater than 0.',
+      )
+    })
   })
 })

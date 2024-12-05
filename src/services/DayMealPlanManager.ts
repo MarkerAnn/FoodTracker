@@ -7,11 +7,17 @@ export class DayMealPlanManager {
   constructor(private recipeManager: RecipeManager) {}
 
   addMeal(mealType: MealType, recipeId: string) {
-    const meal = new MealModel(mealType, recipeId)
+    this.validateMealType(mealType)
     this.meals.push({ mealType, recipeId })
   }
 
   getDayMealPlan() {
     return this.meals
+  }
+
+  private validateMealType(mealType: MealType): void {
+    if (!Object.values(MealType).includes(mealType)) {
+      throw new Error('Meal type is not valid.')
+    }
   }
 }

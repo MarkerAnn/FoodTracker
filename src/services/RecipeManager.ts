@@ -13,6 +13,7 @@ export class RecipeManager {
   ): Recipe {
     const recipe = new Recipe(name, ingredients, instructions, servings)
     this.validator.validateName(recipe)
+    this.validator.validateInstruction(recipe)
     this.recipes.push(recipe)
     return recipe
   }

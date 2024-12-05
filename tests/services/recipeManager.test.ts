@@ -47,7 +47,7 @@ describe('RecipeManager', () => {
 
     it('should throw an error when creating recipe with empty instructions', () => {
       expect(() => manager.createRecipe('Omelette', [], '', 1)).toThrow(
-        'Recipe must have valid instructions as a non-empty string.',
+        'Recipe must have a valid instructions as a non-empty string.',
       )
     })
   })

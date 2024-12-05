@@ -63,5 +63,12 @@ describe('DayMealPlanManager', () => {
         'Recipe ID must be a non-empty string.',
       )
     })
+
+    it('should thrwow an error when recipe cant be found', () => {
+      const recipeId = 'recipe_non_existent'
+      expect(() => manager.addMeal(MealType.Breakfast, recipeId)).toThrow(
+        `Recipe with ID ${recipeId} does not exist.`,
+      )
+    })
   })
 })

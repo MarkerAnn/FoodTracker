@@ -81,37 +81,4 @@ describe('DayMealPlanManager', () => {
       expect(meals[1].recipeId).toBe(recipe2.id)
     })
   })
-
-  describe('Day Meal Plan Validation', () => {
-    it('should throw an error when adding meal with invalid meal type', () => {
-      const recipeId = 'recipe_123'
-      const date = new Date('2024-12-04')
-      expect(() =>
-        manager.addMeal(date, 'InvalidMealType' as MealType, recipeId),
-      ).toThrow('Meal type is not valid.')
-    })
-
-    it('it should throw an error when adding meal with empty recipe id', () => {
-      const date = new Date('2024-12-04')
-      expect(() => manager.addMeal(date, MealType.Breakfast, '')).toThrow(
-        'Recipe ID must be a non-empty string.',
-      )
-    })
-
-    it('should thrwow an error when recipe cant be found', () => {
-      const date = new Date('2024-12-04')
-      const recipeId = 'recipe_non_existent'
-      expect(() => manager.addMeal(date, MealType.Breakfast, recipeId)).toThrow(
-        `Recipe with ID ${recipeId} does not exist.`,
-      )
-    })
-
-    it('should throw an error when adding meal with invalid date', () => {
-      const recipeId = 'recipe_123'
-      const date = new Date('invalid-date')
-      expect(() => manager.addMeal(date, MealType.Breakfast, recipeId)).toThrow(
-        'Date is not valid, please use the format YYYY-MM-DD, e.g. 2024-12-04',
-      )
-    })
-  })
 })

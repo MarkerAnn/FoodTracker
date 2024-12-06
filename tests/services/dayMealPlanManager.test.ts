@@ -21,7 +21,6 @@ describe('DayMealPlanManager', () => {
       // REQ-006 - Connect a recipe to a meal
       const egg = ingredientManager.createIngredient('Egg', 155)
 
-      // Skapa recept direkt i RecipeManager
       const recipe = recipeManager.createRecipe(
         'Omelette',
         [{ ingredientId: egg.id, amount: 2 }],
@@ -29,8 +28,8 @@ describe('DayMealPlanManager', () => {
         1,
       )
 
-      // Använd receptets ID
-      manager.addMeal(MealType.Breakfast, recipe.id)
+      const date = new Date('2024-12-05')
+      manager.addMeal(date, MealType.Breakfast, recipe.id)
 
       const dayMealPlan = manager.getDayMealPlan()
       expect(dayMealPlan).toContainEqual(
@@ -68,8 +67,10 @@ describe('DayMealPlanManager', () => {
         1,
       )
 
-      manager.addMeal(MealType.Breakfast, recipe1.id)
-      manager.addMeal(MealType.Lunch, recipe2.id)
+      const date = new Date('2024-12-04')
+
+      manager.addMeal(date, MealType.Breakfast, recipe1.id)
+      manager.addMeal(date, MealType.Lunch, recipe2.id)
 
       const meals = manager.getDayMealPlan()
       expect(meals).toHaveLength(2)
@@ -83,20 +84,23 @@ describe('DayMealPlanManager', () => {
   describe('Day Meal Plan Validation', () => {
     it('should throw an error when adding meal with invalid meal type', () => {
       const recipeId = 'recipe_123'
+      const date = new Date('2024-12-04')
       expect(() =>
-        manager.addMeal('InvalidMealType' as MealType, recipeId),
+        manager.addMeal(date, 'InvalidMealType' as MealType, recipeId),
       ).toThrow('Meal type is not valid.')
     })
 
     it('it should throw an error when adding meal with empty recipe id', () => {
-      expect(() => manager.addMeal(MealType.Breakfast, '')).toThrow(
+      const date = new Date('2024-12-04')
+      expect(() => manager.addMeal(date, MealType.Breakfast, '')).toThrow(
         'Recipe ID must be a non-empty string.',
       )
     })
 
     it('should thrwow an error when recipe cant be found', () => {
+      const date = new Date('2024-12-04')
       const recipeId = 'recipe_non_existent'
-      expect(() => manager.addMeal(MealType.Breakfast, recipeId)).toThrow(
+      expect(() => manager.addMeal(date, MealType.Breakfast, recipeId)).toThrow(
         `Recipe with ID ${recipeId} does not exist.`,
       )
     })

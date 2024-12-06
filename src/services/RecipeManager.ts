@@ -21,6 +21,16 @@ export class RecipeManager {
     return this.recipes
   }
 
+  deleteRecipe(recipeId: string) {
+    const recipeIndex = this.recipes.findIndex(
+      (recipe) => recipe.id === recipeId,
+    )
+    if (recipeIndex < 0) {
+      throw new Error('Recipe not found.')
+    }
+    this.recipes.splice(recipeIndex, 1)
+  }
+
   private validateRecipe(recipe: Recipe): void {
     this.validator.validateName(recipe)
     this.validator.validateInstruction(recipe)

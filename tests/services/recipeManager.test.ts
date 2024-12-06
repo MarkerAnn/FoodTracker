@@ -2,6 +2,7 @@ import { RecipeManager } from '../../src/services/RecipeManager'
 import { Recipe } from '../../src/models/Recipe'
 import { omelettMilk, omelettEgg } from '../mockData/ingredients.mockData'
 import { IngredientManager } from '../../src/services/IngredientManager'
+import { get } from 'http'
 
 describe('RecipeManager', () => {
   let manager: RecipeManager
@@ -52,7 +53,6 @@ describe('RecipeManager', () => {
         'Cook the eggs',
         1,
       )
-
       manager.deleteRecipe(recipe.id)
 
       expect(manager.getRecipes()).toHaveLength(0)

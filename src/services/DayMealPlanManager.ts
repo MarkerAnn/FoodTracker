@@ -11,11 +11,11 @@ export class DayMealPlanManager {
     this.validator = new DayMealPlanValidator(recipeManager)
   }
 
-  addMeal(mealType: MealType, recipeId: string) {
+  addMeal(date: Date, mealType: MealType, recipeId: string) {
     this.validator.validateMealType(mealType)
     this.validator.validateRecipeId(recipeId)
     this.validator.validateRecipeExists(recipeId)
-    this.meals.push({ mealType, recipeId })
+    this.meals.push({ date, mealType, recipeId })
   }
 
   getDayMealPlan() {

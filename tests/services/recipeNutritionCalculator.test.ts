@@ -2,8 +2,7 @@ import { Unit } from '../../src/enums/Unit'
 import { RecipeNutritionCalculator } from '../../src/services/RecipeNutritionCalculator'
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Recipe } from '../../src/models/Recipe'
-import { mockNutrition } from '../mockData/ingredients.mockData'
-import { setupIngredientFromMock, setupRecipe } from '../utils/testHelpers'
+import { setupRecipeOmelette } from '../utils/testHelpers'
 
 describe('RecipeNutritionCalculator', () => {
   let calculator: RecipeNutritionCalculator
@@ -17,7 +16,7 @@ describe('RecipeNutritionCalculator', () => {
   describe('Basic Recipe Nutrition Calculation', () => {
     it('should calculate calories for a recipe', () => {
       // REQ-018 - Calculate calories for a recipe
-      const recipe = setupRecipe(ingredientManager)
+      const recipe = setupRecipeOmelette(ingredientManager)
       const caloriesPerPortion = calculator.getCaloriesPerPortion(recipe)
 
       // EGG: 155 cal per 100g -> 60g = 155 * 0.6 = 93
@@ -28,7 +27,7 @@ describe('RecipeNutritionCalculator', () => {
 
     describe('Detailed Nutrition Calculation', () => {
       it('should calculate detailed nutrition for a recipe', () => {
-        const recipe = setupRecipe(ingredientManager)
+        const recipe = setupRecipeOmelette(ingredientManager)
         const detailedNutrition =
           calculator.getDetailedNutritionPerPortion(recipe)
 

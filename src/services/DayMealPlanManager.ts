@@ -12,10 +12,7 @@ export class DayMealPlanManager {
   }
 
   addMeal(date: Date, mealType: MealType, recipeId: string) {
-    this.validator.validateMealType(mealType)
-    this.validator.validateRecipeId(recipeId)
-    this.validator.validateRecipeExists(recipeId)
-    this.validator.validateDate(date)
+    this.validateMeal(date, mealType, recipeId)
 
     this.meals.push({ date, mealType, recipeId })
   }
@@ -64,6 +61,13 @@ export class DayMealPlanManager {
     return this.recipeManager
       .getRecipes()
       .find((recipe) => recipe.id === recipeId)
+  }
+
+  private validateMeal(date: Date, mealType: MealType, recipeId: string) {
+    this.validator.validateMealType(mealType)
+    this.validator.validateRecipeId(recipeId)
+    this.validator.validateRecipeExists(recipeId)
+    this.validator.validateDate(date)
   }
 }
 

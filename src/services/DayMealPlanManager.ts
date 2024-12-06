@@ -57,6 +57,27 @@ export class DayMealPlanManager {
     })
   }
 
+  deleteMealFromDateAndMealType(
+    date: Date,
+    mealType: MealType,
+    recipeId: string,
+  ) {
+    this.validateMeal(date, mealType, recipeId)
+
+    const mealIndex = this.meals.findIndex(
+      (meal) =>
+        meal.date.toDateString() === date.toDateString() &&
+        meal.mealType === mealType &&
+        meal.recipeId === recipeId,
+    )
+
+    if (mealIndex === -1) {
+      throw new Error('Meal not found')
+    }
+
+    this.meals.splice(mealIndex, 1)
+  }
+
   private getRecipeData(recipeId: string) {
     return this.recipeManager
       .getRecipes()

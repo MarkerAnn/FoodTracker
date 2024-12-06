@@ -226,5 +226,28 @@ describe('DayMealPlanManager', () => {
 
       expect(mealsForDay).toHaveLength(0)
     })
+
+    it('should delete a meal from the day meal plan when the same meal is added the same day in different meal types', () => {
+      manager.addMeal(testDate1, MealType.Breakfast, testRecipe1.id)
+      manager.addMeal(testDate1, MealType.Lunch, testRecipe1.id)
+
+      manager.deleteMealFromDateAndMealType(
+        testDate1,
+        MealType.Breakfast,
+        testRecipe1.id,
+      )
+
+      const mealsForDay = manager.getMealsForDate(testDate1)
+
+      expect(mealsForDay).toHaveLength(1)
+      expect(mealsForDay).toEqual([
+        {
+          date: testDate1,
+          mealType: MealType.Lunch,
+          recipeName: testRecipe1.name,
+          recipeId: testRecipe1.id,
+        },
+      ])
+    })
   })
 })

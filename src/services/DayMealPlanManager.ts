@@ -72,6 +72,4 @@ export class DayMealPlanManager {
 }
 
 // TODO: remove Recipe from meal
-// TODO: listMeals for a specific meal type REQ-002
-// TODO: List meals for the day
 // TODO: getCaloriesForDay REQ-007 REQ-019

@@ -31,7 +31,6 @@ export class DayMealPlanManager {
   }
 }
 
-// TODO: Add date to day meal plan REQ-005
 // TODO: remove Recipe from meal
 // TODO: listMeals for a specific meal type REQ-002
 // TODO: List meals for the day

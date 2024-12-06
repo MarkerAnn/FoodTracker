@@ -61,7 +61,7 @@ describe('RecipeManager', () => {
 
     it('should throw an error when deleting non-existent recipe', () => {
       expect(() => manager.deleteRecipe('123')).toThrow(
-        'Recipe does not exist.',
+        'Recipe not found in the recipe manager.',
       )
     })
   })

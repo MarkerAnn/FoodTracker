@@ -26,7 +26,7 @@ export class RecipeManager {
       (recipe) => recipe.id === recipeId,
     )
     if (recipeIndex < 0) {
-      throw new Error('Recipe not found.')
+      throw new Error('Recipe not found in the recipe manager.')
     }
     this.recipes.splice(recipeIndex, 1)
   }
@@ -40,4 +40,3 @@ export class RecipeManager {
 }
 
 // TODO: updateRecipe
-// TODO: deleteRecipe

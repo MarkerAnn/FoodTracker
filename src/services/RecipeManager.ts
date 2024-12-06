@@ -29,7 +29,5 @@ export class RecipeManager {
   }
 }
 
-// TODO: getCaloriesPerPortion
-// TODO: getNutritionPerPortion
 // TODO: updateRecipe
 // TODO: deleteRecipe

@@ -117,6 +117,7 @@ describe('DayMealPlanManager', () => {
       manager.addMeal(testDate2, MealType.Breakfast, testRecipe1.id)
 
       const mealsForDay = manager.getMealsForDate(testDate1)
+      console.log(mealsForDay)
 
       expect(mealsForDay).toHaveLength(2)
       expect(mealsForDay).toEqual(
@@ -133,6 +134,11 @@ describe('DayMealPlanManager', () => {
           }),
         ]),
       )
+    })
+
+    it('should return an empty array when no meals are found for the day', () => {
+      const mealsForDay = manager.getMealsForDate(testDate1)
+      expect(mealsForDay).toHaveLength(0)
     })
   })
 })

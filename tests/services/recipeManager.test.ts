@@ -58,6 +58,12 @@ describe('RecipeManager', () => {
       expect(manager.getRecipes()).toHaveLength(0)
       expect(manager.getRecipes()).not.toContainEqual({ id: recipe.id })
     })
+
+    it('should throw an error when deleting non-existent recipe', () => {
+      expect(() => manager.deleteRecipe('123')).toThrow(
+        'Recipe does not exist.',
+      )
+    })
   })
 
   describe('RecipeManager - Validation', () => {

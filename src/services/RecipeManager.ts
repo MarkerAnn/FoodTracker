@@ -21,6 +21,10 @@ export class RecipeManager {
     return this.recipes
   }
 
+  getRecipe(recipeId: string) {
+    return this.recipes.find((recipe) => recipe.id === recipeId)
+  }
+
   deleteRecipe(recipeId: string) {
     const recipeIndex = this.recipes.findIndex(
       (recipe) => recipe.id === recipeId,

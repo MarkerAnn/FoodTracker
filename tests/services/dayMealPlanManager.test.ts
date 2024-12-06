@@ -140,5 +140,27 @@ describe('DayMealPlanManager', () => {
       const mealsForDay = manager.getMealsForDate(testDate1)
       expect(mealsForDay).toHaveLength(0)
     })
+
+    it('should list meals with the name of the recipe for a specific date', () => {
+      manager.addMeal(testDate1, MealType.Breakfast, testRecipe1.id)
+      manager.addMeal(testDate1, MealType.Breakfast, testRecipe2.id)
+
+      const mealsForDay = manager.getMealsForDate(testDate1)
+
+      expect(mealsForDay).toEqual([
+        {
+          date: testDate1,
+          mealType: MealType.Breakfast,
+          recipeName: testRecipe1.name,
+          recipeId: testRecipe1.id,
+        },
+        {
+          date: testDate1,
+          mealType: MealType.Breakfast,
+          recipeName: testRecipe2.name,
+          recipeId: testRecipe2.id,
+        },
+      ])
+    })
   })
 })

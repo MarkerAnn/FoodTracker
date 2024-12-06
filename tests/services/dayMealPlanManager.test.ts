@@ -182,6 +182,7 @@ describe('DayMealPlanManager', () => {
           recipeId: testRecipe1.id,
         },
       ])
+      console.log(mealsForDay)
     })
   })
 })

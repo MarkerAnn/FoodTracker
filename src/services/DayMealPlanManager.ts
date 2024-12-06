@@ -41,6 +41,25 @@ export class DayMealPlanManager {
     })
   }
 
+  getMealForDateAndMealType(date: Date, mealType: MealType) {
+    const recipes = this.meals.filter(
+      (meal) =>
+        meal.date.toDateString() === date.toDateString() &&
+        meal.mealType === mealType,
+    )
+
+    return recipes.map((meal) => {
+      const recipeData = this.getRecipeData(meal.recipeId)
+
+      return {
+        date: meal.date,
+        mealType: meal.mealType,
+        recipeId: meal.recipeId,
+        recipeName: recipeData?.name,
+      }
+    })
+  }
+
   private getRecipeData(recipeId: string) {
     return this.recipeManager
       .getRecipes()

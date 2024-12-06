@@ -23,4 +23,12 @@ export class DayMealPlanValidator {
       throw new Error(`Recipe with ID ${recipeId} does not exist.`)
     }
   }
+
+  validateDate(date: Date): void {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      throw new Error(
+        'Date is not valid, please use the format YYYY-MM-DD, e.g. 2024-12-04',
+      )
+    }
+  }
 }

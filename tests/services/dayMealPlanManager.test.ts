@@ -41,7 +41,8 @@ describe('DayMealPlanManager', () => {
     })
 
     it('should add multiple meals to the day plan', () => {
-      // Skapa recept med ingredienser
+      // REQ-005 - Add a meal to the day meal plan
+      // REQ-006 - Connect a recipe to a meal
       const egg = ingredientManager.createIngredient('Egg', 155)
       const milk = ingredientManager.createIngredient('Milk', 42)
       const wheat = ingredientManager.createIngredient('Wheat', 340)
@@ -102,6 +103,14 @@ describe('DayMealPlanManager', () => {
       const recipeId = 'recipe_non_existent'
       expect(() => manager.addMeal(date, MealType.Breakfast, recipeId)).toThrow(
         `Recipe with ID ${recipeId} does not exist.`,
+      )
+    })
+
+    it('should throw an error when adding meal with invalid date', () => {
+      const recipeId = 'recipe_123'
+      const date = new Date('invalid-date')
+      expect(() => manager.addMeal(date, MealType.Breakfast, recipeId)).toThrow(
+        'Date is not valid, please use the format YYYY-MM-DD, e.g. 2024-12-04',
       )
     })
   })

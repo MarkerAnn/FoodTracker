@@ -83,55 +83,56 @@ describe('DayMealPlanManager', () => {
     })
   })
 
-  describe('Listing Meals', () => {})
-  // REQ-002 - List meals for a specific meal type
-  let testRecipe1: Recipe
-  let testRecipe2: Recipe
-  let testDate1: Date
-  let testDate2: Date
+  describe('Listing Meals', () => {
+    // REQ-002 - List meals for a specific meal type
+    let testRecipe1: Recipe
+    let testRecipe2: Recipe
+    let testDate1: Date
+    let testDate2: Date
 
-  beforeEach(() => {
-    testRecipe1 = setupRecipePorridge(ingredientManager)
-    recipeManager.createRecipe(
-      testRecipe1.name,
-      testRecipe1.ingredients,
-      testRecipe1.instructions,
-      testRecipe1.servings,
-    )
+    beforeEach(() => {
+      const porridge = setupRecipePorridge(ingredientManager)
+      testRecipe1 = recipeManager.createRecipe(
+        porridge.name,
+        porridge.ingredients,
+        porridge.instructions,
+        porridge.servings,
+      )
 
-    testRecipe2 = setupRecipeOmelette(ingredientManager)
-    recipeManager.createRecipe(
-      testRecipe2.name,
-      testRecipe2.ingredients,
-      testRecipe2.instructions,
-      testRecipe2.servings,
-    )
+      const omelette = setupRecipeOmelette(ingredientManager)
+      testRecipe2 = recipeManager.createRecipe(
+        omelette.name,
+        omelette.ingredients,
+        omelette.instructions,
+        omelette.servings,
+      )
 
-    testDate1 = new Date('2024-12-04')
-    testDate2 = new Date('2024-12-05')
-  })
+      testDate1 = new Date('2024-12-04')
+      testDate2 = new Date('2024-12-05')
+    })
 
-  it('should list meals for a specific day', () => {
-    manager.addMeal(testDate1, MealType.Breakfast, testRecipe1.id)
-    manager.addMeal(testDate1, MealType.Lunch, testRecipe2.id)
-    manager.addMeal(testDate2, MealType.Breakfast, testRecipe1.id)
+    it('should list meals for a specific day', () => {
+      manager.addMeal(testDate1, MealType.Breakfast, testRecipe1.id)
+      manager.addMeal(testDate1, MealType.Lunch, testRecipe2.id)
+      manager.addMeal(testDate2, MealType.Breakfast, testRecipe1.id)
 
-    const mealsForDay = manager.getMealsForDate(testDate1)
+      const mealsForDay = manager.getMealsForDate(testDate1)
 
-    expect(mealsForDay).toHaveLength(2)
-    expect(mealsForDay).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          date: testDate1,
-          MealType: MealType.Breakfast,
-          recipeId: testRecipe1.id,
-        }),
-        expect.objectContaining({
-          date: testDate1,
-          MealType: MealType.Lunch,
-          recipeId: testRecipe2.id,
-        }),
-      ]),
-    )
+      expect(mealsForDay).toHaveLength(2)
+      expect(mealsForDay).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            date: testDate1,
+            mealType: MealType.Breakfast,
+            recipeId: testRecipe1.id,
+          }),
+          expect.objectContaining({
+            date: testDate1,
+            mealType: MealType.Lunch,
+            recipeId: testRecipe2.id,
+          }),
+        ]),
+      )
+    })
   })
 })

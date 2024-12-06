@@ -23,6 +23,12 @@ export class DayMealPlanManager {
   getDayMealPlan() {
     return this.meals
   }
+
+  getMealsForDate(date: Date) {
+    return this.meals.filter(
+      (meal) => meal.date.toDateString() === date.toDateString(),
+    )
+  }
 }
 
 // TODO: Add date to day meal plan REQ-005

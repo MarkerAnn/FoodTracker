@@ -1,17 +1,17 @@
-import { consoleMenu } from '../../src/views/consoleApp'
+import { ConsoleMenu } from '../../src/views/consoleApp'
 
 describe('Console Menu', () => {
-  let consoleMenu: consoleMenu
+  let menu: ConsoleMenu
 
   beforeEach(() => {
-    consoleMenu = new consoleMenu()
+    menu = new ConsoleMenu()
   })
 
   it('should display the main menu', () => {
     // Spy on console.log to check if it's called
     const consoleSpy = jest.spyOn(console, 'log')
 
-    consoleMenu.displayMainMenu()
+    menu.displayMainMenu()
 
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining('Main Menu'),

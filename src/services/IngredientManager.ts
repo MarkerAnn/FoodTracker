@@ -25,6 +25,10 @@ export class IngredientManager {
     return this.ingredients
   }
 
+  getIngredientById(id: string) {
+    return this.findIngredient(id)
+  }
+
   deleteIngredient(id: string) {
     this.getValidatedIngredient(id)
     this.ingredients = this.ingredients.filter(

@@ -21,7 +21,7 @@ export class RecipeManager {
     return this.recipes
   }
 
-  getRecipe(recipeId: string) {
+  getRecipeById(recipeId: string) {
     return this.recipes.find((recipe) => recipe.id === recipeId)
   }
 

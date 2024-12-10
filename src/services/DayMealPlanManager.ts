@@ -13,8 +13,8 @@ export class DayMealPlanManager {
 
   addMeal(date: Date, mealType: MealType, recipeId: string) {
     this.validateMeal(date, mealType, recipeId)
-
-    this.meals.push({ date, mealType, recipeId })
+    const meal = new MealModel(date, mealType, recipeId)
+    this.meals.push(meal)
   }
 
   getDayMealPlan() {
@@ -79,9 +79,7 @@ export class DayMealPlanManager {
   }
 
   private getRecipeData(recipeId: string) {
-    return this.recipeManager
-      .getRecipes()
-      .find((recipe) => recipe.id === recipeId)
+    return this.recipeManager.getRecipeById(recipeId)
   }
 
   private validateMeal(date: Date, mealType: MealType, recipeId: string) {
@@ -92,5 +90,5 @@ export class DayMealPlanManager {
   }
 }
 
-// TODO: remove Recipe from meal
+// TODO:
 // TODO: getCaloriesForDay REQ-007 REQ-019

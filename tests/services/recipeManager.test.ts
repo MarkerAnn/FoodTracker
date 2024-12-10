@@ -64,6 +64,20 @@ describe('RecipeManager', () => {
         'Recipe not found in the recipe manager.',
       )
     })
+
+    it('should return a recipe by id', () => {
+      const egg = ingredientManager.createIngredient('Egg', 155)
+      const recipe = manager.createRecipe(
+        'Omelette',
+        [{ ingredientId: egg.id, amount: 2 }],
+        'Cook the eggs',
+        1,
+      )
+
+      const foundRecipe = manager.getRecipeById(recipe.id)
+
+      expect(foundRecipe).toEqual(recipe)
+    })
   })
 
   describe('RecipeManager - Validation', () => {

@@ -1,89 +1,142 @@
 import { DayMealPlanManager } from '../../src/services/DayMealPlanManager'
+import { Meal } from '../../src/models/Meal'
 import { Recipe } from '../../src/models/Recipe'
 import { RecipeManager } from '../../src/services/RecipeManager'
 import { IngredientManager } from '../../src/services/IngredientManager'
 import { Meal as MealType } from '../../src/enums/Meal'
 import { setupRecipeOmelette, setupRecipePorridge } from '../utils/testHelpers'
+import { DayMealPlanValidator } from '../../src/validation/DayMealPlanValidator'
+
+// Mock validator globally
+jest.mock('../../src/validation/DayMealPlanValidator', () => {
+  return {
+    DayMealPlanValidator: jest.fn().mockImplementation(() => ({
+      validateMealType: jest.fn(),
+      validateRecipeId: jest.fn(),
+      validateRecipeExists: jest.fn(),
+      validateDate: jest.fn(),
+    })),
+  }
+})
+
+// Shared variables and setup
+let manager: DayMealPlanManager
+let mockRecipeManager: jest.Mocked<RecipeManager>
+let mockIngredientManager: jest.Mocked<IngredientManager>
+let mockValidator: jest.Mocked<DayMealPlanValidator>
+
+// Common test data
+const mockDate = new Date('2024-12-04')
+const mockSimpleRecipe = {
+  id: 'recipe_1234',
+  name: 'Test Recipe',
+  ingredients: [],
+  instructions: 'Test Instructions',
+  servings: 1,
+  generateId: jest.fn(),
+} as unknown as Recipe
 
 describe('DayMealPlanManager', () => {
-  let manager: DayMealPlanManager
-  let recipeManager: RecipeManager
-  let ingredientManager: IngredientManager
-
   beforeEach(() => {
-    ingredientManager = new IngredientManager()
-    recipeManager = new RecipeManager()
-    manager = new DayMealPlanManager(recipeManager)
+    jest.clearAllMocks()
+
+    // Setup IngredientManager mock
+    mockIngredientManager = {
+      createIngredient: jest
+        .fn()
+        .mockImplementation((name: string, calories: number) => ({
+          id: `${name.toLowerCase()}_id`,
+          name,
+          calories,
+          generateId: jest.fn(),
+        })),
+      getIngredients: jest.fn(),
+      getIngredientById: jest.fn(),
+      deleteIngredient: jest.fn(),
+      updateIngredient: jest.fn(),
+      setUnitAndWeight: jest.fn(),
+      setDetailedNutritions: jest.fn(),
+      getDetailedNutritions: jest.fn().mockReturnValue({
+        proteins: 0,
+        fats: 0,
+        carbohydrates: 0,
+        fiber: 0,
+      }),
+      getUnitAndWeight: jest.fn().mockReturnValue({
+        unit: 'gram',
+        gramPerUnit: 1,
+      }),
+    } as unknown as jest.Mocked<IngredientManager>
+
+    // Setup RecipeManager mock
+    mockRecipeManager = {
+      getRecipes: jest.fn().mockReturnValue([mockSimpleRecipe]),
+      getRecipeById: jest.fn().mockReturnValue(mockSimpleRecipe),
+      createRecipe: jest
+        .fn()
+        .mockImplementation((name, ingredients, instructions, servings) => ({
+          id: `${name.toLowerCase().replace(' ', '_')}_id`,
+          name: name,
+          ingredients,
+          instructions,
+          servings,
+          generateId: jest.fn(),
+        })),
+      deleteRecipe: jest.fn(),
+      updateRecipe: jest.fn(),
+    } as unknown as jest.Mocked<RecipeManager>
+
+    mockValidator = new DayMealPlanValidator(
+      mockRecipeManager,
+    ) as jest.Mocked<DayMealPlanValidator>
+
+    // Create manager instance
+    manager = new DayMealPlanManager(mockRecipeManager)
   })
 
-  describe('Basic Day Meal Plan Operations', () => {
-    it('should add a meal to the day meal plan', () => {
-      // REQ-005 - Add a meal to the day meal plan
-      // REQ-006 - Connect a recipe to a meal
-      const egg = ingredientManager.createIngredient('Egg', 155)
+  describe('DayMealPlanManager - Basic Operations', () => {
+    describe('Meal Addition', () => {
+      it('should add a meal to the day meal plan', () => {
+        // REQ-005 - Add a meal to the day meal plan
+        // REQ-006 - Connect a recipe to a meal
+        manager.addMeal(mockDate, MealType.Breakfast, mockSimpleRecipe.id)
 
-      const recipe = recipeManager.createRecipe(
-        'Omelette',
-        [{ ingredientId: egg.id, amount: 2 }],
-        'Cook the eggs',
-        1,
-      )
+        const dayMealPlan = manager.getDayMealPlan()
 
-      const date = new Date('2024-12-05')
-      manager.addMeal(date, MealType.Breakfast, recipe.id)
+        expect(dayMealPlan).toContainEqual(
+          expect.objectContaining({
+            date: mockDate,
+            mealType: MealType.Breakfast,
+            recipeId: mockSimpleRecipe.id,
+          }),
+        )
+      })
 
-      const dayMealPlan = manager.getDayMealPlan()
-      expect(dayMealPlan).toContainEqual(
-        expect.objectContaining({
-          mealType: MealType.Breakfast,
-          recipeId: recipe.id,
-        }),
-      )
-    })
+      it('should create Meal instances correctly', () => {
+        manager.addMeal(mockDate, MealType.Breakfast, mockSimpleRecipe.id)
+        const dayMealPlan = manager.getDayMealPlan()
 
-    it('should add multiple meals to the day plan', () => {
-      // REQ-005 - Add a meal to the day meal plan
-      // REQ-006 - Connect a recipe to a meal
-      const egg = ingredientManager.createIngredient('Egg', 155)
-      const milk = ingredientManager.createIngredient('Milk', 42)
-      const wheat = ingredientManager.createIngredient('Wheat', 340)
+        expect(dayMealPlan[0]).toBeInstanceOf(Meal)
+        expect(dayMealPlan[0].date).toEqual(mockDate)
+        expect(dayMealPlan[0].mealType).toEqual(MealType.Breakfast)
+        expect(dayMealPlan[0].recipeId).toEqual(mockSimpleRecipe.id)
+      })
 
-      const recipe1 = recipeManager.createRecipe(
-        'Omelette',
-        [
-          { ingredientId: egg.id, amount: 2 },
-          { ingredientId: milk.id, amount: 1 },
-        ],
-        'Cook it',
-        1,
-      )
+      it('should add multiple meals to the day plan', () => {
+        // REQ-005 - Add a meal to the day meal plan
+        // REQ-006 - Connect a recipe to a meal
+        manager.addMeal(mockDate, MealType.Breakfast, mockSimpleRecipe.id)
+        manager.addMeal(mockDate, MealType.Lunch, mockSimpleRecipe.id)
 
-      const recipe2 = recipeManager.createRecipe(
-        'Panncakes',
-        [
-          { ingredientId: wheat.id, amount: 1 },
-          { ingredientId: milk.id, amount: 1 },
-          { ingredientId: egg.id, amount: 2 },
-        ],
-        'Cook it',
-        1,
-      )
-
-      const date = new Date('2024-12-04')
-
-      manager.addMeal(date, MealType.Breakfast, recipe1.id)
-      manager.addMeal(date, MealType.Lunch, recipe2.id)
-
-      const meals = manager.getDayMealPlan()
-      expect(meals).toHaveLength(2)
-      expect(meals[0].mealType).toBe(MealType.Breakfast)
-      expect(meals[0].recipeId).toBe(recipe1.id)
-      expect(meals[1].mealType).toBe(MealType.Lunch)
-      expect(meals[1].recipeId).toBe(recipe2.id)
+        const meals = manager.getMealsForDate(mockDate)
+        expect(meals).toHaveLength(2)
+        expect(meals[0].mealType).toBe(MealType.Breakfast)
+        expect(meals[1].mealType).toBe(MealType.Lunch)
+      })
     })
   })
 
-  describe('Listing Meals', () => {
+  describe('DayMealPlanManager - Listing Operations', () => {
     // REQ-002 - List meals for a specific meal type
     let testRecipe1: Recipe
     let testRecipe2: Recipe
@@ -91,24 +144,30 @@ describe('DayMealPlanManager', () => {
     let testDate2: Date
 
     beforeEach(() => {
-      const porridge = setupRecipePorridge(ingredientManager)
-      testRecipe1 = recipeManager.createRecipe(
-        porridge.name,
-        porridge.ingredients,
-        porridge.instructions,
-        porridge.servings,
+      testDate1 = new Date('2024-01-01')
+      testDate2 = new Date('2024-01-02')
+      // Mock IngredientManager
+      // Create test recipes
+      testRecipe1 = mockRecipeManager.createRecipe(
+        'Oatmeal Porridge',
+        setupRecipePorridge(mockIngredientManager).ingredients,
+        'Instructions for porridge',
+        1,
       )
 
-      const omelette = setupRecipeOmelette(ingredientManager)
-      testRecipe2 = recipeManager.createRecipe(
-        omelette.name,
-        omelette.ingredients,
-        omelette.instructions,
-        omelette.servings,
+      testRecipe2 = mockRecipeManager.createRecipe(
+        'Omelette',
+        setupRecipeOmelette(mockIngredientManager).ingredients,
+        'Instructions for omelette',
+        1,
       )
 
-      testDate1 = new Date('2024-12-04')
-      testDate2 = new Date('2024-12-05')
+      // Update the global mock to return the test recipes
+      mockRecipeManager.getRecipeById = jest.fn().mockImplementation((id) => {
+        if (id === testRecipe1.id) return testRecipe1
+        if (id === testRecipe2.id) return testRecipe2
+        return undefined
+      })
     })
 
     it('should list meals for a specific day', () => {
@@ -249,5 +308,17 @@ describe('DayMealPlanManager', () => {
         },
       ])
     })
+
+    it('should throw an error when trying to delete a non-existent meal', () => {
+      expect(() =>
+        manager.deleteMealFromDateAndMealType(
+          testDate1,
+          MealType.Breakfast,
+          'non-existent-recipe-id',
+        ),
+      ).toThrow('Meal not found')
+    })
   })
 })
+
+// Get the calories for a meal and for a day

@@ -5,6 +5,7 @@ describe('Console Menu', () => {
 
   beforeEach(() => {
     menu = new ConsoleMenu()
+    jest.clearAllMocks()
   })
 
   it('should display the main menu', () => {

@@ -46,4 +46,12 @@ describe('Console Menu', () => {
       'Invalid menu selection. Please select a valid option.',
     )
   })
+
+  it('should handle valid enum menu selection', () => {
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
+      MainMenuOption.Ingredients,
+    )
+    const result = menu.handleMenuSelection()
+    expect(result).toBe(MainMenuOption.Ingredients)
+  })
 })

@@ -61,4 +61,33 @@ describe('Console Menu', () => {
       'Invalid menu selection. Please select a valid option.',
     )
   })
+
+  describe('Ingredient Submenu', () => {
+    it('should display the ingredient submenu', () => {
+      const consoleSpy = jest
+        .spyOn(
+          console,
+          'log',
+        )(readlineSync.questionInt as jest.Mock)
+        .mockReturnValue(MainMenuOption.Ingredients)
+
+      menu.handleMenuAction(MainMenuOption.Ingredients)
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Ingredient Menu'),
+      )
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('1 - Add Ingredient'),
+      )
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('2 - List Ingredients'),
+      )
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('3 - Delete Ingredient'),
+      )
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('4 - Back to Main Menu'),
+      )
+    })
+  })
 })

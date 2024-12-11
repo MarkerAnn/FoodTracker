@@ -49,7 +49,7 @@ export class ConsoleMenu {
     console.log('0 - Back to Main Menu')
   }
 
-  handleIngredientMenuAction(option: number): IngredientMenuOption {
+  handleIngredientMenuSelection(): IngredientMenuOption {
     const selection = readlineSync.questionInt('Select an option: ')
 
     if (!this.isValidIngredientSelection(selection)) {
@@ -57,6 +57,28 @@ export class ConsoleMenu {
     }
 
     return selection as IngredientMenuOption
+  }
+
+  handleIngredientMenuAction(option: IngredientMenuOption): void {
+    switch (option) {
+      case IngredientMenuOption.AddIngredient:
+        // implement this
+        console.log('Add ingredient selected')
+        break
+      case IngredientMenuOption.ListIngredients:
+        // Implement this
+        console.log('List ingredients selected')
+        break
+      case IngredientMenuOption.DeleteIngredient:
+        // IImplement this
+        console.log('Delete ingredient selected')
+        break
+      case IngredientMenuOption.Back:
+        console.log('Returning to main menu')
+        break
+      default:
+        throw new Error('Invalid option')
+    }
   }
 
   private isValidIngredientSelection(selection: number): boolean {

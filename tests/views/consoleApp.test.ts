@@ -1,4 +1,4 @@
-import { ConsoleMenu } from '../../src/views/consoleApp'
+import { ConsoleMenu, IngredientMenuOption } from '../../src/views/consoleApp'
 import { MainMenuOption } from '../../src/enums/MainMenu'
 import * as readlineSync from 'readline-sync'
 
@@ -91,9 +91,9 @@ describe('Console Menu', () => {
 
   it('should handle valid ingredient menu selection', () => {
     ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
-      IngredientMenuOption.Add,
+      IngredientMenuOption.AddIngredient,
     )
-    const result = menu.handleIngredientMenuAction(IngredientMenuOption.Add)
-    expect(result).toBe(IngredientMenuOption.Add)
+    const result = menu.handleIngredientMenuSelection()
+    expect(result).toBe(IngredientMenuOption.AddIngredient)
   })
 })

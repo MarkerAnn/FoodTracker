@@ -63,13 +63,11 @@ describe('Console Menu', () => {
   })
 
   describe('Ingredient Submenu', () => {
-    it('should display the ingredient submenu', () => {
-      const consoleSpy = jest
-        .spyOn(
-          console,
-          'log',
-        )(readlineSync.questionInt as jest.Mock)
-        .mockReturnValue(MainMenuOption.Ingredients)
+    it('should display ingredient submenu when that option is selected', () => {
+      const consoleSpy = jest.spyOn(console, 'log')
+      ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
+        MainMenuOption.Ingredients,
+      )
 
       menu.handleMenuAction(MainMenuOption.Ingredients)
 
@@ -86,7 +84,7 @@ describe('Console Menu', () => {
         expect.stringContaining('3 - Delete Ingredient'),
       )
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('4 - Back to Main Menu'),
+        expect.stringContaining('0 - Back to Main Menu'),
       )
     })
   })

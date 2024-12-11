@@ -1,4 +1,5 @@
-import { ConsoleMenu, MainMenuOption } from '../../src/views/consoleApp'
+import { ConsoleMenu } from '../../src/views/consoleApp'
+import { MainMenuOption } from '../../src/enums/MainMenu'
 import * as readlineSync from 'readline-sync'
 
 // Mock the readline-sync to simulate user input
@@ -34,24 +35,30 @@ describe('Console Menu', () => {
     )
   })
 
-  it('should handle valid menu selection', () => {
-    ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(1)
-    const result = menu.handleMenuSelection()
-    expect(result).toBe(1)
-  })
-
-  it('shoould throw an error when handling invalid menu selection', () => {
-    ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(4)
-    expect(() => menu.handleMenuSelection()).toThrow(
-      'Invalid menu selection. Please select a valid option.',
-    )
-  })
-
   it('should handle valid enum menu selection', () => {
     ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
       MainMenuOption.Ingredients,
     )
     const result = menu.handleMenuSelection()
     expect(result).toBe(MainMenuOption.Ingredients)
+  })
+
+  it('should check if selection is valid', () => {
+    const isValid = menu['isValidSelection'](MainMenuOption.Ingredients)
+    expect(isValid).toBe(true)
+  })
+
+  it('should handle invalid enum menu selection', () => {
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValue(4)
+    expect(() => menu.handleMenuSelection()).toThrow(
+      'Invalid menu selection. Please select a valid option.',
+    )
+  })
+
+  it('should handle 0 as invalid enum menu selection', () => {
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValue(0)
+    expect(() => menu.handleMenuSelection()).toThrow(
+      'Invalid menu selection. Please select a valid option.',
+    )
   })
 })

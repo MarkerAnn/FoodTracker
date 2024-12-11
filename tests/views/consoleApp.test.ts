@@ -1,4 +1,10 @@
 import { ConsoleMenu } from '../../src/views/consoleApp'
+import * as readlineSync from 'readline-sync'
+
+// Mock the readline-sync to simulate user input
+jest.mock('readline-sync', () => ({
+  questionInt: jest.fn().mockReturnValue(1),
+}))
 
 describe('Console Menu', () => {
   let menu: ConsoleMenu
@@ -29,13 +35,8 @@ describe('Console Menu', () => {
   })
 
   it('should handle valid menu selection', () => {
-    // Mock the readline-sync to simulate user input
-    jest.mock('readline-sync', () => ({
-      questionInt: jest.fn().mockReturnValue(1),
-    }))
-
+    (readlineSync.questionInt as jest.Mock).mockReturnValueOnce(1)
     const result = menu.handleMenuSelection()
-
     expect(result).toBe(1)
   })
 })

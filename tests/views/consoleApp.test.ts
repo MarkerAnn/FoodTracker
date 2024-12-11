@@ -35,8 +35,15 @@ describe('Console Menu', () => {
   })
 
   it('should handle valid menu selection', () => {
-    (readlineSync.questionInt as jest.Mock).mockReturnValueOnce(1)
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(1)
     const result = menu.handleMenuSelection()
     expect(result).toBe(1)
+  })
+
+  it('shoould throw an error when handling invalid menu selection', () => {
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(4)
+    expect(() => menu.handleMenuSelection()).toThrow(
+      'Invalid menu selection. Please select a valid option.',
+    )
   })
 })

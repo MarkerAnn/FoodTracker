@@ -13,6 +13,9 @@ export class ConsoleMenu {
   handleMenuSelection(): number {
     const selection = readlineSync.questionInt('Select an option: ')
 
+    if (selection < 1 || selection > 3) {
+      throw new Error('Invalid menu selection. Please select a valid option.')
+    }
     return selection
   }
 }

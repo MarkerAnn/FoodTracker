@@ -2,8 +2,11 @@ import * as readlineSync from 'readline-sync'
 import { MainMenuOption } from '../enums/MainMenu'
 import { IngredientMenuOption } from '../enums/IngredientMenu'
 import { Ingredient } from '../models/Ingredient'
+import { IngredientManager } from '../services/IngredientManager'
 
 export class ConsoleMenu {
+  constructor(private ingredientManager: IngredientManager) {}
+
   displayMainMenu(): void {
     console.log('================')
     console.log('Main Menu')
@@ -56,8 +59,7 @@ export class ConsoleMenu {
   handleIngredientMenuAction(option: IngredientMenuOption): void {
     switch (option) {
       case IngredientMenuOption.AddIngredient:
-        // implement this
-        console.log('Add ingredient selected')
+        this.handleAddIngredient()
         break
       case IngredientMenuOption.ListIngredients:
         // Implement this
@@ -72,6 +74,26 @@ export class ConsoleMenu {
         break
       default:
         throw new Error('Invalid option')
+    }
+  }
+
+  handleAddIngredient(): Ingredient {
+    try {
+      const name = readlineSync.question('Enter ingredient name: ')
+      const caloriePerHundredGram = readlineSync.questionFloat(
+        'Enter calorie per 100 gram: ',
+      )
+
+      return this.ingredientManager.createIngredient(
+        name,
+        caloriePerHundredGram,
+      )
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message)
+        throw error
+      }
+      throw error
     }
   }
 

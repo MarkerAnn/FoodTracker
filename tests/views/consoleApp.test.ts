@@ -7,10 +7,13 @@ import { IngredientManager } from '../../src/services/IngredientManager'
 // Mock the readline-sync to simulate user input
 jest.mock('readline-sync', () => ({
   questionInt: jest.fn().mockReturnValue(1),
+  question: jest.fn(),
+  questionFloat: jest.fn(),
 }))
 
 describe('Console Menu', () => {
   let menu: ConsoleMenu
+  let ingredientManager: IngredientManager
 
   beforeEach(() => {
     ingredientManager = new IngredientManager()
@@ -104,15 +107,40 @@ describe('Console Menu', () => {
     it('should handle Add Ingredient when selected', () => {
       // Mock the user input for name and calorie
       ;(readlineSync.question as jest.Mock).mockReturnValueOnce('Banana')
-      ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(89)
+      ;(readlineSync.questionFloat as jest.Mock).mockReturnValueOnce(89)
 
-      const addIngredient = menu.handleAddIngredient()
+      const spy = jest.spyOn(ingredientManager, 'createIngredient')
 
-      expect(addIngredient).toEqual(
-        expect.objectContaining({
-          name: 'Banana',
-          caloriePerHundredGram: 89,
-        }),
+      menu.handleAddIngredient()
+
+      // Verify that the method was called with the correct arguments
+      expect(spy).toHaveBeenCalledWith('Banana', 89)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throw error when calories is not a positive number', () => {
+      ;(readlineSync.question as jest.Mock).mockReturnValueOnce('Banana')
+      ;(readlineSync.questionFloat as jest.Mock).mockReturnValueOnce(-5)
+
+      expect(() => menu.handleAddIngredient()).toThrow(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
+      )
+    })
+
+    it('should validate ingredient name is not empty', () => {
+      ;(readlineSync.question as jest.Mock).mockReturnValueOnce('')
+
+      expect(() => menu.handleAddIngredient()).toThrow(
+        'Ingredient must have a valid name as a non-empty string.',
+      )
+    })
+
+    it('should validate calories are positive', () => {
+      ;(readlineSync.question as jest.Mock).mockReturnValueOnce('Banana')
+      ;(readlineSync.questionFloat as jest.Mock).mockReturnValueOnce(-5)
+
+      expect(() => menu.handleAddIngredient()).toThrow(
+        'Ingredient must have calories as a positive number greater than 0 and of the type Number.',
       )
     })
   })

@@ -1,13 +1,7 @@
 import * as readlineSync from 'readline-sync'
 import { MainMenuOption } from '../enums/MainMenu'
+import { IngredientMenuOption } from '../enums/IngredientMenu'
 import { Ingredient } from '../models/Ingredient'
-
-export enum IngredientMenuOption {
-  AddIngredient = 1,
-  ListIngredients = 2,
-  DeleteIngredient = 3,
-  Back = 0,
-}
 
 export class ConsoleMenu {
   displayMainMenu(): void {

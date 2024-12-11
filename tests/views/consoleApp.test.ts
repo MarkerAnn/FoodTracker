@@ -1,6 +1,8 @@
-import { ConsoleMenu, IngredientMenuOption } from '../../src/views/consoleApp'
+import { ConsoleMenu } from '../../src/views/consoleApp'
 import { MainMenuOption } from '../../src/enums/MainMenu'
+import { IngredientMenuOption } from '../../src/enums/IngredientMenu'
 import * as readlineSync from 'readline-sync'
+import { IngredientManager } from '../../src/services/IngredientManager'
 
 // Mock the readline-sync to simulate user input
 jest.mock('readline-sync', () => ({
@@ -11,7 +13,8 @@ describe('Console Menu', () => {
   let menu: ConsoleMenu
 
   beforeEach(() => {
-    menu = new ConsoleMenu()
+    ingredientManager = new IngredientManager()
+    menu = new ConsoleMenu(ingredientManager)
     jest.clearAllMocks()
   })
 
@@ -87,13 +90,30 @@ describe('Console Menu', () => {
         expect.stringContaining('0 - Back to Main Menu'),
       )
     })
+    it('should handle valid ingredient menu selection', () => {
+      ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
+        IngredientMenuOption.AddIngredient,
+      )
+
+      const result = menu.handleIngredientMenuSelection()
+      expect(result).toBe(IngredientMenuOption.AddIngredient)
+    })
   })
 
-  it('should handle valid ingredient menu selection', () => {
-    ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
-      IngredientMenuOption.AddIngredient,
-    )
-    const result = menu.handleIngredientMenuSelection()
-    expect(result).toBe(IngredientMenuOption.AddIngredient)
+  describe('Ingredient Submenu Actions', () => {
+    it('should handle Add Ingredient when selected', () => {
+      // Mock the user input for name and calorie
+      ;(readlineSync.question as jest.Mock).mockReturnValueOnce('Banana')
+      ;(readlineSync.questionInt as jest.Mock).mockReturnValueOnce(89)
+
+      const addIngredient = menu.handleAddIngredient()
+
+      expect(addIngredient).toEqual(
+        expect.objectContaining({
+          name: 'Banana',
+          caloriePerHundredGram: 89,
+        }),
+      )
+    })
   })
 })

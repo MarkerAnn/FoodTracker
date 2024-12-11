@@ -27,4 +27,15 @@ describe('Console Menu', () => {
       expect.stringContaining('3 - Meal Plan operations'),
     )
   })
+
+  it('should handle valid menu selection', () => {
+    // Mock the readline-sync to simulate user input
+    jest.mock('readline-sync', () => ({
+      questionInt: jest.fn().mockReturnValue(1),
+    }))
+
+    const result = menu.handleMenuSelection()
+
+    expect(result).toBe(1)
+  })
 })

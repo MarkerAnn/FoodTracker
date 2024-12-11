@@ -1,5 +1,13 @@
 import * as readlineSync from 'readline-sync'
 
+export enum MainMenuOption {
+  Ingredients = 1,
+  Recipes = 2,
+  MealPlans = 3,
+}
+
+
+
 export class ConsoleMenu {
   displayMainMenu(): void {
     console.log('================')
@@ -13,9 +21,13 @@ export class ConsoleMenu {
   handleMenuSelection(): number {
     const selection = readlineSync.questionInt('Select an option: ')
 
-    if (selection < 1 || selection > 3) {
+    if (!this.isValidSelection(selection)) {
       throw new Error('Invalid menu selection. Please select a valid option.')
     }
-    return selection
+    return selection as MainMenuOption
+  }
+
+  private isValidSelection(selection: number): boolean {
+    return Object.values(MainMenuOption).includes(selection)
   }
 }

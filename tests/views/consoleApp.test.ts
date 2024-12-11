@@ -1,4 +1,4 @@
-import { ConsoleMenu } from '../../src/views/consoleApp'
+import { ConsoleMenu, MainMenuOption } from '../../src/views/consoleApp'
 import * as readlineSync from 'readline-sync'
 
 // Mock the readline-sync to simulate user input

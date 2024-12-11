@@ -88,4 +88,12 @@ describe('Console Menu', () => {
       )
     })
   })
+
+  it('should handle valid ingredient menu selection', () => {
+    ;(readlineSync.questionInt as jest.Mock).mockReturnValue(
+      IngredientMenuOption.Add,
+    )
+    const result = menu.handleIngredientMenuAction(IngredientMenuOption.Add)
+    expect(result).toBe(IngredientMenuOption.Add)
+  })
 })
